@@ -12,12 +12,15 @@ function PathSelectpage() {
   };
 
   const handleCardClick = (topic) => {
-    // You can handle card click events here if needed
-    console.log(`${topic} card clicked`);
+    if (topic === 'Blue Collar') {
+      navigate('/login/blue'); // Adjust the route if needed
+    } else if (topic === 'White Collar') {
+      navigate('/login/white'); // Adjust the route if needed
+    }
   };
 
   return (
-    <div className="bg-white bg-cover bg-center h-screen flex flex-col items-center justify-center text-white relative">
+    <div className="bg-blue-100 bg-cover bg-center h-screen flex flex-col items-center justify-center text-white relative">
       {/* Back Button */}
       <button 
         onClick={handleBackClick} 
@@ -38,7 +41,7 @@ function PathSelectpage() {
             <FontAwesomeIcon icon={faHardHat} size="3x" className="text-blue-600" />
           </div>
           <h2 className="text-black text-2xl font-bold mb-2 text-center">Blue Collar</h2>
-          <p className="text-black text-center">
+          <p className="text-black text-center text-[13px] ml-8 mr-8">
             Blue-collar jobs involve physical labor or skilled trades and are often outside office settings. They don’t necessarily require a college degree but demand specialized skills. 😊
           </p>
         </div>
@@ -52,7 +55,7 @@ function PathSelectpage() {
             <FontAwesomeIcon icon={faBriefcase} size="3x" className="text-blue-600" />
           </div>
           <h2 className="text-black text-2xl font-bold mb-2 text-center">White Collar</h2>
-          <p className="text-black text-center">
+          <p className="text-black text-center text-[13px] ml-8 mr-8">
             White-collar jobs, performed in office settings. Examples include customer service managers, financial managers, engineers, and marketing managers. Salaries replace hourly wages. 😊
           </p>
         </div>
