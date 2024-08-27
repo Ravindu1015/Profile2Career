@@ -9,6 +9,10 @@ import BlueSignuppageS from './components/Login/BlueSignuppageS'; // Seeker Sign
 import BlueSignupg from './components/Login/BlueSignupg'; // Giver Signup Page in Blue
 import WhiteSignuppageS from './components/Login/WhiteSignuppageS'; // Seeker Signup Page in White
 import WhiteSignupg from './components/Login/WhiteSignupg'; // Giver Signup Page in White
+// import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+import 'firebase/compat/storage';
 
 
 
