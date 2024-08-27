@@ -12,7 +12,7 @@ function WhiteLoginpage() {
   };
 
   const handleSignupClick = () => {
-    navigate('/signup/white'); // Navigate to the signup page
+    navigate('/signup/white/seeker'); // Navigate to the WhiteSignuppageS component
   };
 
   return (

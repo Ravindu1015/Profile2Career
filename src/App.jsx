@@ -3,10 +3,15 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Firstpage from "./components/Welcome/Firstpage";
 import PathSelectpage from './components/Welcome/PathSelectpage';
-import BlueLoginpage from './components/Login/BlueLoginpage'; // Ensure this path is correct
+import BlueLoginpage from './components/Login/BlueLoginpage';
 import WhiteLoginpage from './components/Login/WhiteLoginpage';
-import WhiteSignuppageS from './components/Login/WhiteSignuppageS'; // Seeker Signup Page
-import WhiteSignupg from './components/Login/WhiteSignupg'; // Giver Signup Page (Ensure path is correct)
+import BlueSignuppageS from './components/Login/BlueSignuppageS'; // Seeker Signup Page in Blue
+import BlueSignupg from './components/Login/BlueSignupg'; // Giver Signup Page in Blue
+import WhiteSignuppageS from './components/Login/WhiteSignuppageS'; // Seeker Signup Page in White
+import WhiteSignupg from './components/Login/WhiteSignupg'; // Giver Signup Page in White
+
+
+
 
 function App() {
   return (
@@ -17,16 +22,16 @@ function App() {
         <Route path="/login/blue" element={<BlueLoginpage />} />
         <Route path="/login/white" element={<WhiteLoginpage />} />
         
-        {/* Seeker Signup Page */}
-        <Route path="/signup/white" element={<WhiteSignuppageS />} />
-        
-        {/* Giver Signup Page */}
-        <Route path="/signup/giver" element={<WhiteSignupg />} /> {/* Add the Giver signup page route */}
-        <Route path="/signup/white/giver" element={<WhiteSignupg />} />
+        {/* Seeker Signup Pages */}
+        <Route path="/signup/blue/seeker" element={<BlueSignuppageS />} />
         <Route path="/signup/white/seeker" element={<WhiteSignuppageS />} />
         
+        {/* Giver Signup Pages */}
+        <Route path="/signup/blue/giver" element={<BlueSignupg />} />
+        <Route path="/signup/white/giver" element={<WhiteSignupg />} />
         
-        {/* Other routes can go here */}
+        {/* Catch-all route for undefined paths */}
+        <Route path="*" element={<div>404 - Page Not Found</div>} />
       </Routes>
     </Router>
   );
