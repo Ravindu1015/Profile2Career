@@ -45,7 +45,7 @@ function WhiteSignuppageS() {
           <div className="grid grid-cols-2 gap-8">
             {/* Seeker Grid */}
             <div
-              className="bg-white rounded-lg shadow-lg p-8 flex flex-col items-center justify-center hover:bg-blue-100 transition duration-300 cursor-pointer"
+              className="flex flex-col items-center justify-center bg-white p-4 rounded-3xl h-96 w-96 shadow-lg shadow-gray-400 transition-transform transform hover:scale-105 hover:shadow-xl cursor-pointer"
               onClick={() => setIsSeeker(true)}
             >
               <FaUserTie className="text-blue-600 text-6xl mb-4" />
@@ -56,7 +56,7 @@ function WhiteSignuppageS() {
             </div>
             {/* Giver Grid */}
             <div
-              className="bg-white rounded-lg shadow-lg p-8 flex flex-col items-center justify-center hover:bg-green-100 transition duration-300 cursor-pointer"
+              className="flex flex-col items-center justify-center bg-white p-4 rounded-3xl h-96 w-96 shadow-lg shadow-gray-400 transition-transform transform hover:scale-105 hover:shadow-xl cursor-pointer"
               onClick={handleGiverClick}
             >
               <FaHandsHelping className="text-blue-600 text-6xl mb-4" />

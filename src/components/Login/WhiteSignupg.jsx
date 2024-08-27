@@ -36,7 +36,7 @@ function WhiteSignupg() {
   };
 
   return (
-    <div className="bg-green-100 bg-cover bg-center min-h-screen flex flex-col justify-center items-center text-white">
+    <div className="bg-blue-100 bg-cover bg-center min-h-screen flex flex-col justify-center items-center text-white">
       <button
         onClick={handleBackClick}
         className="absolute top-4 left-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
@@ -134,7 +134,7 @@ function WhiteSignupg() {
             </div>
             <button
               type="button"
-              className="w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700 transition duration-300"
+              className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition duration-300"
               onClick={handleRegisterClick}
             >
               Register
@@ -142,7 +142,7 @@ function WhiteSignupg() {
           </form>
           <div className="mt-6 text-center">
             <p className="text-gray-600">
-              Already have an account? <a href="/login/white" className="text-green-600 hover:underline">Sign in here</a>.
+              Already have an account? <a href="/login/white" className="text-blue-600 hover:underline">Sign in here</a>.
             </p>
           </div>
         </div>
