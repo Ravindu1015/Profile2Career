@@ -18,26 +18,26 @@ function BlueLoginpage() {
     try {
       // Firebase Authentication Sign-in
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      
+
       // Get the logged-in user
       // eslint-disable-next-line no-unused-vars
       const user = userCredential.user;
 
-      // Fetch the user data from the appropriate Firestore collection
-      const q = query(collection(db, 'bluegiver'), where('bg_emailaddress', '==', email));
-      const querySnapshot = await getDocs(q);
+      // Check if the user is in the bluegiver collection
+      const giverQuery = query(collection(db, 'bluegiver'), where('bg_emailaddress', '==', email));
+      const giverSnapshot = await getDocs(giverQuery);
 
-      if (!querySnapshot.empty) {
+      if (!giverSnapshot.empty) {
         // User is a Giver, redirect to the Giver dashboard
-        navigate('/dashboard/blue/giver');
+        navigate('/home/blue/giver');
       } else {
         // Check the blueseeker collection
-        const qSeeker = query(collection(db, 'blueseeker'), where('bs_emailaddress', '==', email));
-        const seekerSnapshot = await getDocs(qSeeker);
+        const seekerQuery = query(collection(db, 'blueseeker'), where('bs_emailaddress', '==', email));
+        const seekerSnapshot = await getDocs(seekerQuery);
 
         if (!seekerSnapshot.empty) {
           // User is a Seeker, redirect to the Seeker dashboard
-          navigate('/dashboard/blue/seeker');
+          navigate('/home/blue/seeker');
         } else {
           // No matching user found in Firestore, handle this error
           setError('User not found in the system.');
