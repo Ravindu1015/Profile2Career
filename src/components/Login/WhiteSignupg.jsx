@@ -1,11 +1,16 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { db } from './firebase'; // Ensure Firebase is correctly imported
+import { collection, addDoc } from 'firebase/firestore';
 
 function WhiteSignupg() {
   const navigate = useNavigate();
   const [skills, setSkills] = useState(['']);
   const [jobs, setJobs] = useState(['']);
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleBackClick = () => {
     navigate(-1); // Navigate back to the previous page
@@ -31,8 +36,25 @@ function WhiteSignupg() {
     setJobs(newJobs);
   };
 
-  const handleRegisterClick = () => {
-    // Handle the registration logic here
+  const handleRegisterClick = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Add the user to the "whitegiver" collection in Firestore
+      await addDoc(collection(db, 'whitegiver'), {
+        wg_fullname: fullName,
+        wg_emailaddress: email,
+        wg_password: password,
+        wg_expectedskills: skills,
+        wg_jobs: jobs
+      });
+
+      alert('Registration successful!');
+      navigate('/login/white'); // Navigate to login after successful registration
+    } catch (error) {
+      console.error('Error adding document: ', error);
+      alert('Registration failed! Please try again.');
+    }
   };
 
   return (
@@ -58,7 +80,7 @@ function WhiteSignupg() {
           <p className="text-gray-600 mb-8">
             Join us by filling in the information below.
           </p>
-          <form>
+          <form onSubmit={handleRegisterClick}>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fullName">
                 Full Name
@@ -68,6 +90,9 @@ function WhiteSignupg() {
                 id="fullName"
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
                 placeholder="John Doe"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
               />
             </div>
             <div className="mb-4">
@@ -79,17 +104,23 @@ function WhiteSignupg() {
                 id="email"
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
                 placeholder="your-email@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="address">
-                Address
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="passwordWhite">
+                Password
               </label>
               <input
-                type="text"
-                id="address"
+                type="password"
+                id="passwordWhite"
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-                placeholder="1234 Main St, City, Country"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
             <div className="mb-4">
@@ -102,6 +133,7 @@ function WhiteSignupg() {
                   placeholder={`Skill ${index + 1}`}
                   value={skill}
                   onChange={(e) => handleSkillChange(index, e)}
+                  required
                 />
               ))}
               <button
@@ -122,6 +154,7 @@ function WhiteSignupg() {
                   placeholder={`Job ${index + 1}`}
                   value={job}
                   onChange={(e) => handleJobChange(index, e)}
+                  required
                 />
               ))}
               <button
@@ -133,9 +166,8 @@ function WhiteSignupg() {
               </button>
             </div>
             <button
-              type="button"
+              type="submit"
               className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition duration-300"
-              onClick={handleRegisterClick}
             >
               Register
             </button>

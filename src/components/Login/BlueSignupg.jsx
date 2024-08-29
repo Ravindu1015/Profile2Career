@@ -1,10 +1,16 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { auth, db } from './firebaseConfig.js'; // Ensure your Firebase config is properly imported
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 function BlueSignupg() {
   const navigate = useNavigate();
   const [jobs, setJobs] = useState(['']);
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleBackClick = () => {
     navigate(-1); // Navigate back to the previous page
@@ -20,8 +26,28 @@ function BlueSignupg() {
     setJobs(newJobs);
   };
 
-  const handleRegisterClick = () => {
-    // Handle the registration logic here
+  const handleRegisterClick = async () => {
+    try {
+      // Step 1: Create the user in Firebase Authentication
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Step 2: Store additional user data in Firestore
+      await setDoc(doc(db, "bluegiver", user.uid), {
+        bg_fullname: fullName,
+        bg_emailaddress: email,
+        bg_password: password, // Storing the password as plaintext is not recommended; just for demonstration
+        bg_availablejobs: jobs,
+      });
+
+      console.log("User registered and data saved successfully!");
+      
+      // Redirect or show success message
+      navigate('/login/blue');
+    } catch (error) {
+      console.error("Error during registration:", error);
+      // Handle error (e.g., show error message to the user)
+    }
   };
 
   return (
@@ -57,6 +83,8 @@ function BlueSignupg() {
                 id="fullNameBlue"
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
                 placeholder="John Doe"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
               />
             </div>
             <div className="mb-4">
@@ -68,6 +96,8 @@ function BlueSignupg() {
                 id="emailBlue"
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
                 placeholder="your-email@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="mb-4">
@@ -79,6 +109,8 @@ function BlueSignupg() {
                 id="passwordBlue"
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
                 placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <div className="mb-4">

@@ -1,15 +1,21 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaUserTie, FaHandsHelping } from 'react-icons/fa'; // Icons for Job Seeker and Giver
+import { FaUserTie, FaHandsHelping } from 'react-icons/fa';
+import { auth, db } from '../firebaseConfig'; // Import Firebase config (adjust the path accordingly)
+import { createUserWithEmailAndPassword } from 'firebase/auth'; 
+import { addDoc, collection } from 'firebase/firestore'; 
 
 function BlueSignuppageS() {
   const navigate = useNavigate();
-  const [isSeeker, setIsSeeker] = useState(null); // To determine if Seeker or Giver is selected
-  const [jobExpectations, setJobExpectations] = useState(['']); // List of job expectations
+  const [isSeeker, setIsSeeker] = useState(null);
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [jobExpectations, setJobExpectations] = useState(['']); 
 
   const handleBackClick = () => {
-    navigate(-1); // Navigate back to the previous page
+    navigate(-1); 
   };
 
   const addJobExpectation = () => {
@@ -22,12 +28,31 @@ function BlueSignuppageS() {
     setJobExpectations(newExpectations);
   };
 
-  const handleRegisterClick = () => {
-    // Handle the registration logic here
+  const handleRegisterClick = async () => {
+    try {
+      // Register the user with Firebase Authentication
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Add the user information to Firestore
+      await addDoc(collection(db, "blueseeker"), {
+        bs_fullname: fullName,
+        bs_emailaddress: email,
+        bs_password: password,
+        bs_jobexpectations: jobExpectations,
+        uid: user.uid, // Add user ID from Firebase Authentication
+      });
+
+      alert("Registration successful!");
+      navigate("/login/blue"); // Navigate to the login page
+    } catch (error) {
+      console.error("Error registering user:", error);
+      alert("Registration failed. Please try again.");
+    }
   };
 
   const handleGiverClick = () => {
-    navigate('/signup/blue/giver'); // Navigate to BlueSignupg.jsx
+    navigate('/signup/blue/giver');
   };
 
   return (
@@ -43,7 +68,6 @@ function BlueSignuppageS() {
         <div className="mb-8">
           <h2 className="text-4xl font-semibold text-gray-800 mb-6 text-center">Choose Your Path</h2>
           <div className="grid grid-cols-2 gap-8">
-            {/* Seeker Grid */}
             <div
               className="flex flex-col items-center justify-center bg-white p-4 rounded-3xl h-96 w-96 shadow-lg shadow-gray-400 transition-transform transform hover:scale-105 hover:shadow-xl cursor-pointer"
               onClick={() => setIsSeeker(true)}
@@ -54,7 +78,6 @@ function BlueSignuppageS() {
                 Looking for opportunities? Join as a seeker and find your ideal job.
               </p>
             </div>
-            {/* Giver Grid */}
             <div
               className="flex flex-col items-center justify-center bg-white p-4 rounded-3xl h-96 w-96 shadow-lg shadow-gray-400 transition-transform transform hover:scale-105 hover:shadow-xl cursor-pointer"
               onClick={handleGiverClick}
@@ -94,6 +117,8 @@ function BlueSignuppageS() {
                   id="fullNameBlue"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
                   placeholder="John Doe"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
                 />
               </div>
               <div className="mb-4">
@@ -105,6 +130,8 @@ function BlueSignuppageS() {
                   id="emailBlue"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
                   placeholder="your-email@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="mb-4">
@@ -116,6 +143,8 @@ function BlueSignuppageS() {
                   id="passwordBlue"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
                   placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <div className="mb-4">

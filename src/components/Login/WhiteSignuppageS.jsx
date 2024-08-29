@@ -2,11 +2,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaUserTie, FaHandsHelping } from 'react-icons/fa'; // Icons for Job Seeker and Giver
+import { db } from './firebase'; // Ensure Firebase is correctly imported
+import { collection, addDoc } from 'firebase/firestore';
 
 function WhiteSignuppageS() {
   const navigate = useNavigate();
   const [isSeeker, setIsSeeker] = useState(null); // To determine if Seeker or Giver is selected
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [skills, setSkills] = useState(['']);
+  const [jobExpectations, setJobExpectations] = useState('');
+  const [interestedCompanies, setInterestedCompanies] = useState('');
 
   const handleBackClick = () => {
     navigate(-1); // Navigate back to the previous page
@@ -17,17 +24,34 @@ function WhiteSignuppageS() {
   };
 
   const handleSkillChange = (index, event) => {
-    const newSkills = skills.slice();
+    const newSkills = [...skills];
     newSkills[index] = event.target.value;
     setSkills(newSkills);
   };
 
-  const handleRegisterClick = () => {
-    // Handle the registration logic here
-  };
-
   const handleGiverClick = () => {
     navigate('/signup/white/giver'); // Navigate to WhiteSignupg.jsx
+  };
+
+  const handleRegisterClick = async (e) => {
+    e.preventDefault();
+    try {
+      // Add the user data to the "whiteseeker" collection in Firestore
+      await addDoc(collection(db, 'whiteseeker'), {
+        ws_fullname: fullName,
+        ws_emailaddress: email,
+        ws_password: password,
+        ws_skills: skills,
+        ws_jobexpectations: jobExpectations,
+        ws_interestedcompanies: interestedCompanies,
+      });
+
+      alert('Registration successful!');
+      navigate('/login/white'); // Navigate to login after successful registration
+    } catch (error) {
+      console.error('Error adding document: ', error);
+      alert('Registration failed! Please try again.');
+    }
   };
 
   return (
@@ -84,7 +108,7 @@ function WhiteSignuppageS() {
             <p className="text-gray-600 mb-8">
               Join us by filling in the information below.
             </p>
-            <form>
+            <form onSubmit={handleRegisterClick}>
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fullName">
                   Full Name
@@ -94,6 +118,9 @@ function WhiteSignuppageS() {
                   id="fullName"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
                   placeholder="John Doe"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required
                 />
               </div>
               <div className="mb-4">
@@ -105,6 +132,9 @@ function WhiteSignuppageS() {
                   id="email"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
                   placeholder="your-email@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </div>
               <div className="mb-4">
@@ -116,6 +146,9 @@ function WhiteSignuppageS() {
                   id="password"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
                   placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
               </div>
               <div className="mb-4">
@@ -128,6 +161,7 @@ function WhiteSignuppageS() {
                     placeholder={`Skill ${index + 1}`}
                     value={skill}
                     onChange={(e) => handleSkillChange(index, e)}
+                    required
                   />
                 ))}
                 <button
@@ -147,6 +181,9 @@ function WhiteSignuppageS() {
                   id="jobExpectations"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
                   placeholder="Describe your job expectations"
+                  value={jobExpectations}
+                  onChange={(e) => setJobExpectations(e.target.value)}
+                  required
                 />
               </div>
               <div className="mb-4">
@@ -158,12 +195,14 @@ function WhiteSignuppageS() {
                   id="interestCompanies"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
                   placeholder="List companies you are interested in"
+                  value={interestedCompanies}
+                  onChange={(e) => setInterestedCompanies(e.target.value)}
+                  required
                 />
               </div>
               <button
-                type="button"
+                type="submit"
                 className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition duration-300"
-                onClick={handleRegisterClick}
               >
                 Register
               </button>
