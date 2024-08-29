@@ -1,7 +1,9 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth, db } from './firebaseConfig.js'; // Ensure your Firebase config is properly imported
+import { auth, db } from "../../firebaseConfig.js";
+
+// Ensure your Firebase config is properly imported
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaUserTie, FaHandsHelping } from 'react-icons/fa';
-import { auth, db } from '../firebaseConfig'; // Import Firebase config (adjust the path accordingly)
+import { auth, db } from "../../firebaseConfig.js"; // Import Firebase config (adjust the path accordingly)
 import { createUserWithEmailAndPassword } from 'firebase/auth'; 
 import { addDoc, collection } from 'firebase/firestore'; 
 

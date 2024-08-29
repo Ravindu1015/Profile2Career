@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'; // Import Google icon
-import { auth, db } from './firebase'; // Import Firebase auth and Firestore
+import { auth, db } from "../../firebaseConfig.js"; // Import Firebase auth and Firestore
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 

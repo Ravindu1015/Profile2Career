@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaUserTie, FaHandsHelping } from 'react-icons/fa'; // Icons for Job Seeker and Giver
-import { db } from './firebase'; // Ensure Firebase is correctly imported
+import { db } from "../../firebaseConfig.js";
+ // Ensure Firebase is correctly imported
 import { collection, addDoc } from 'firebase/firestore';
 
 function WhiteSignuppageS() {

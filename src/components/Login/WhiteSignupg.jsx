@@ -1,7 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { db } from './firebase'; // Ensure Firebase is correctly imported
+import { db } from "../../firebaseConfig.js";
+ // Ensure Firebase is correctly imported
 import { collection, addDoc } from 'firebase/firestore';
 
 function WhiteSignupg() {
