@@ -1,11 +1,53 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'; // Import Google icon
+import { auth, db } from './firebase'; // Import Firebase auth and Firestore
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 
 function BlueLoginpage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      // Firebase Authentication Sign-in
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      
+      // Get the logged-in user
+      // eslint-disable-next-line no-unused-vars
+      const user = userCredential.user;
+
+      // Fetch the user data from the appropriate Firestore collection
+      const q = query(collection(db, 'bluegiver'), where('bg_emailaddress', '==', email));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        // User is a Giver, redirect to the Giver dashboard
+        navigate('/dashboard/blue/giver');
+      } else {
+        // Check the blueseeker collection
+        const qSeeker = query(collection(db, 'blueseeker'), where('bs_emailaddress', '==', email));
+        const seekerSnapshot = await getDocs(qSeeker);
+
+        if (!seekerSnapshot.empty) {
+          // User is a Seeker, redirect to the Seeker dashboard
+          navigate('/dashboard/blue/seeker');
+        } else {
+          // No matching user found in Firestore, handle this error
+          setError('User not found in the system.');
+        }
+      }
+    } catch (err) {
+      console.error('Login failed:', err);
+      setError('Invalid email or password.');
+    }
+  };
 
   const handleBackClick = () => {
     navigate(-1); // Navigate back to the previous page
@@ -27,7 +69,7 @@ function BlueLoginpage() {
       <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl max-h-3xl p-8 flex mt-20 mb-20">
         <div className="w-1/2 flex items-center justify-center">
           <img 
-            src="/image/log/login.jpg" // Same image path
+            src="/image/log/login.jpg" // Updated the image path to be relative
             alt="Login Illustration" 
             className="w-full h-auto" 
           />
@@ -38,7 +80,8 @@ function BlueLoginpage() {
           <p className="text-gray-600 mb-8">
             To keep connected with us, please login with your personal information by email address and password.
           </p>
-          <form>
+          <form onSubmit={handleLogin}>
+            {error && <p className="text-red-500 text-center mb-4">{error}</p>}
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="blueEmail">
                 Email Address
@@ -47,7 +90,10 @@ function BlueLoginpage() {
                 type="email" 
                 id="blueEmail" 
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" 
-                placeholder="your-email@example.com" 
+                placeholder="your-email@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
             <div className="mb-4">
@@ -58,7 +104,10 @@ function BlueLoginpage() {
                 type="password" 
                 id="bluePassword" 
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" 
-                placeholder="Enter your password" 
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
             <div className="flex items-center justify-between mb-6">

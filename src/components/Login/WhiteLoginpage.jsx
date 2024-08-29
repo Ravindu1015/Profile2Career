@@ -1,11 +1,53 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'; // Import Google icon
+import { auth, db } from './firebase'; // Import Firebase auth and Firestore
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 
 function WhiteLoginpage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      // Firebase Authentication Sign-in
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
+      // Get the logged-in user
+      // eslint-disable-next-line no-unused-vars
+      const user = userCredential.user;
+
+      // Fetch the user data from the appropriate Firestore collection
+      const q = query(collection(db, 'whitegiver'), where('wg_emailaddress', '==', email));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        // User is a Giver, redirect to the Giver dashboard
+        navigate('/dashboard/white/giver');
+      } else {
+        // Check the whiteseeker collection
+        const qSeeker = query(collection(db, 'whiteseeker'), where('ws_emailaddress', '==', email));
+        const seekerSnapshot = await getDocs(qSeeker);
+
+        if (!seekerSnapshot.empty) {
+          // User is a Seeker, redirect to the Seeker dashboard
+          navigate('/dashboard/white/seeker');
+        } else {
+          // No matching user found in Firestore, handle this error
+          setError('User not found in the system.');
+        }
+      }
+    } catch (err) {
+      console.error('Login failed:', err);
+      setError('Invalid email or password.');
+    }
+  };
 
   const handleBackClick = () => {
     navigate(-1); // Navigate back to the previous page
@@ -38,7 +80,8 @@ function WhiteLoginpage() {
           <p className="text-gray-600 mb-8">
             To keep connected with us, please login with your personal information by email address and password.
           </p>
-          <form>
+          <form onSubmit={handleLogin}>
+            {error && <p className="text-red-500 text-center mb-4">{error}</p>}
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
                 Email Address
@@ -48,6 +91,9 @@ function WhiteLoginpage() {
                 id="email" 
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" 
                 placeholder="your-email@example.com" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required 
               />
             </div>
             <div className="mb-4">
@@ -59,6 +105,9 @@ function WhiteLoginpage() {
                 id="password" 
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" 
                 placeholder="Enter your password" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required 
               />
             </div>
             <div className="flex items-center justify-between mb-6">
@@ -80,7 +129,7 @@ function WhiteLoginpage() {
             <button 
               type="button" 
               className="w-full bg-gray-200 text-gray-800 p-3 rounded-lg hover:bg-gray-300 transition duration-300 mt-4"
-              onClick={handleSignupClick} // Add the click handler for signup
+              onClick={handleSignupClick}
             >
               Create Account
             </button>
