@@ -18,28 +18,26 @@ function WhiteLoginpage() {
     try {
       // Firebase Authentication Sign-in
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-
-      // Get the logged-in user
       // eslint-disable-next-line no-unused-vars
       const user = userCredential.user;
 
-      // Fetch the user data from the appropriate Firestore collection
-      const q = query(collection(db, 'whitegiver'), where('wg_emailaddress', '==', email));
-      const querySnapshot = await getDocs(q);
+      // Fetch user data from Firestore
+      const qGiver = query(collection(db, 'whitegiver'), where('wg_emailaddress', '==', email));
+      const giverSnapshot = await getDocs(qGiver);
 
-      if (!querySnapshot.empty) {
-        // User is a Giver, redirect to the Giver dashboard
-        navigate('/dashboard/white/giver');
+      if (!giverSnapshot.empty) {
+        // User is a Giver, redirect to the Giver home page
+        navigate('/home/white/giver');
       } else {
         // Check the whiteseeker collection
         const qSeeker = query(collection(db, 'whiteseeker'), where('ws_emailaddress', '==', email));
         const seekerSnapshot = await getDocs(qSeeker);
 
         if (!seekerSnapshot.empty) {
-          // User is a Seeker, redirect to the Seeker dashboard
-          navigate('/dashboard/white/seeker');
+          // User is a Seeker, redirect to the Seeker home page
+          navigate('/home/white/seeker');
         } else {
-          // No matching user found in Firestore, handle this error
+          // No matching user found in Firestore
           setError('User not found in the system.');
         }
       }
