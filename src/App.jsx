@@ -13,6 +13,7 @@ import BlueSeekerhome from './components/Home/BlueSeekerhome'; // Seeker Home Pa
 import BlueGiverhome from './components/Home/BlueGiverhome'; // Giver Home Page in Blue
 import WhiteSeekerhome from './components/Home/WhiteSeekerhome'; // Seeker Home Page in White
 import WhiteGiverhome from './components/Home/WhiteGiverhome'; // Giver Home Page in White
+import BlueGiverabout from './components/About/BlueGiverabout';
 
 // import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
