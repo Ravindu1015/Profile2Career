@@ -14,6 +14,22 @@ import BlueGiverhome from './components/Home/BlueGiverhome'; // Giver Home Page 
 import WhiteSeekerhome from './components/Home/WhiteSeekerhome'; // Seeker Home Page in White
 import WhiteGiverhome from './components/Home/WhiteGiverhome'; // Giver Home Page in White
 import BlueGiverabout from './components/About/BlueGiverabout';
+import BGaccount from './components/Account/BGaccount';
+import BGhelp from './components/Help/BGhelp';
+import BlueGivermessages from './components/Messages/BlueGivermessages';
+import BlueSeekerabout from './components/About/BlueSeekerabout';
+import BSaccount from './components/Account/BSaccount';
+import BShelp from './components/Help/BShelp';
+import BlueSeekermessages from './components/Messages/BlueSeekermessages';
+import WhiteGiverabout from './components/About/WhiteGiverabout';
+import WGaccount from './components/Account/WGaccount';
+import WGhelp from './components/Help/WGhelp';
+import WhiteGivermessages from './components/Messages/WhiteGivermessages';
+import WhiteSeekerabout from './components/About/WhiteSeekerabout';
+import WSaccount from './components/Account/WSaccount';
+import WShelp from './components/Help/WShelp';
+import WhiteSeekermessages from './components/Messages/WhiteSeekermessages';
+
 
 // import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -42,6 +58,30 @@ function App() {
         <Route path="/home/blue/giver" element={<BlueGiverhome />} /> {/* Ensure you have this component */}
         <Route path="/home/white/seeker" element={<WhiteSeekerhome />} /> {/* Ensure you have this component */}
         <Route path="/home/white/giver" element={<WhiteGiverhome />} /> {/* Ensure you have this component */}
+
+        <Route path="/bghome" element={<BlueGiverhome />} />
+        <Route path="/bgabout" element={<BlueGiverabout />} />
+        <Route path="/bgaccount" element={<BGaccount />} />
+        <Route path="/bghelp" element={<BGhelp />} />
+        <Route path="/bgmessages" element={<BlueGivermessages />} />
+        <Route path="/bshome" element={<BlueSeekerhome />} />
+        <Route path="/bsabout" element={<BlueSeekerabout />} /> 
+        <Route path="/bsaccount" element={<BSaccount />} />
+        <Route path="/bshelp" element={<BShelp />} />
+        <Route path="/bsmessages" element={<BlueSeekermessages />} />
+
+
+        <Route path="/wghome" element={<WhiteGiverhome />} />
+        <Route path="/wgabout" element={<WhiteGiverabout />} />
+        <Route path="/wgaccount" element={<WGaccount />} />
+        <Route path="/wghelp" element={<WGhelp />} />
+        <Route path="/wgmessages" element={<WhiteGivermessages />} />
+        <Route path="/wshome" element={<WhiteSeekerhome />} />
+        <Route path="/wsabout" element={<WhiteSeekerabout />} />
+        <Route path="/wsaccount" element={<WSaccount />} />
+        <Route path="/wshelp" element={<WShelp />} />
+        <Route path="/wsmessages" element={<WhiteSeekermessages />} />
+        
         
         {/* Catch-all route for undefined paths */}
         <Route path="*" element={<div>404 - Page Not Found</div>} />

@@ -7,8 +7,9 @@ import { faBriefcase, faUser } from '@fortawesome/free-solid-svg-icons';
 function BlueGiverhome() {
   const theme = 'blue'; // Set theme for navbar styling
 
-  const navClass = theme === 'white' ? 'bg-gray-100 text-gray-800' : 'bg-gray-100 text-gray-800';
-  const activeLinkClass = theme === 'white' ? 'bg-blue-400 text-black shadow-lg' : 'bg-blue-400 text-black shadow-lg';
+  const navClass = theme === 'white' ? 'bg-gray-100 text-gray-800' : 'bg-blue-800 text-white';
+  const activeLinkClass = 'bg-blue-400 text-black shadow-lg'; // Active button styling for current page
+  const defaultLinkClass = 'bg-white text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 hover:shadow-lg hover:scale-105';
 
   return (
     <div className="bg-gray-100 h-screen flex flex-col">
@@ -25,51 +26,41 @@ function BlueGiverhome() {
             <div className="flex-1 flex items-center justify-end">
               <div className="flex space-x-4">
                 <NavLink 
-                  to="/home" 
+                  to="/bghome" 
                   className={({ isActive }) => 
-                    `bg-white text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 ${
-                      isActive ? activeLinkClass : 'hover:shadow-lg hover:scale-105'
-                    }`
+                    isActive ? activeLinkClass : defaultLinkClass
                   }
                 >
                   Home
                 </NavLink>
                 <NavLink 
-                  to="/about" 
+                  to="/bgabout" 
                   className={({ isActive }) => 
-                    `bg-white text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 ${
-                      isActive ? activeLinkClass : 'hover:shadow-lg hover:scale-105'
-                    }`
+                    isActive ? activeLinkClass : defaultLinkClass
                   }
                 >
                   About
                 </NavLink>
                 <NavLink 
-                  to="/messages" 
+                  to="/bgmessages" 
                   className={({ isActive }) => 
-                    `bg-white text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 ${
-                      isActive ? activeLinkClass : 'hover:shadow-lg hover:scale-105'
-                    }`
+                    isActive ? activeLinkClass : defaultLinkClass
                   }
                 >
                   Messages
                 </NavLink>
                 <NavLink 
-                  to="/help" 
+                  to="/bghelp" 
                   className={({ isActive }) => 
-                    `bg-white text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 ${
-                      isActive ? activeLinkClass : 'hover:shadow-lg hover:scale-105'
-                    }`
+                    isActive ? activeLinkClass : defaultLinkClass
                   }
                 >
                   Help
                 </NavLink>
                 <NavLink 
-                  to="/account" 
+                  to="/bgaccount" 
                   className={({ isActive }) => 
-                    `bg-white text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 ${
-                      isActive ? activeLinkClass : 'hover:shadow-lg hover:scale-105'
-                    }`
+                    isActive ? activeLinkClass : defaultLinkClass
                   }
                 >
                   Account 

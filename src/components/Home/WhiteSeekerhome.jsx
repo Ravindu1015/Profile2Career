@@ -1,4 +1,3 @@
- 
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
 import { NavLink } from 'react-router-dom';
@@ -9,7 +8,8 @@ function WhiteSeekerhome() {
   const theme = 'white'; // Set theme for navbar styling
 
   const navClass = theme === 'white' ? 'bg-gray-100 text-gray-800' : 'bg-gray-100 text-gray-800';
-  const activeLinkClass = theme === 'white' ? 'bg-blue-400 text-black shadow-lg' : 'bg-blue-400 text-black shadow-lg';
+  const activeLinkClass = 'bg-blue-400 text-black shadow-lg'; // Active button styling
+  const defaultLinkClass = 'bg-white text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 hover:shadow-lg hover:scale-105';
 
   return (
     <div className="bg-gray-100 h-screen flex flex-col">
@@ -26,51 +26,41 @@ function WhiteSeekerhome() {
             <div className="flex-1 flex items-center justify-end">
               <div className="flex space-x-4">
                 <NavLink 
-                  to="/home" 
+                  to="/wshome" 
                   className={({ isActive }) => 
-                    `bg-white text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 ${
-                      isActive ? activeLinkClass : 'hover:shadow-lg hover:scale-105'
-                    }`
+                    isActive ? activeLinkClass : defaultLinkClass
                   }
                 >
                   Home
                 </NavLink>
                 <NavLink 
-                  to="/about" 
+                  to="/wsabout" 
                   className={({ isActive }) => 
-                    `bg-white text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 ${
-                      isActive ? activeLinkClass : 'hover:shadow-lg hover:scale-105'
-                    }`
+                    isActive ? activeLinkClass : defaultLinkClass
                   }
                 >
                   About
                 </NavLink>
                 <NavLink 
-                  to="/messages" 
+                  to="/wsmessages" 
                   className={({ isActive }) => 
-                    `bg-white text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 ${
-                      isActive ? activeLinkClass : 'hover:shadow-lg hover:scale-105'
-                    }`
+                    isActive ? activeLinkClass : defaultLinkClass
                   }
                 >
                   Messages
                 </NavLink>
                 <NavLink 
-                  to="/help" 
+                  to="/wshelp" 
                   className={({ isActive }) => 
-                    `bg-white text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 ${
-                      isActive ? activeLinkClass : 'hover:shadow-lg hover:scale-105'
-                    }`
+                    isActive ? activeLinkClass : defaultLinkClass
                   }
                 >
                   Help
                 </NavLink>
                 <NavLink 
-                  to="/account" 
+                  to="/wsaccount" 
                   className={({ isActive }) => 
-                    `bg-white text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 ${
-                      isActive ? activeLinkClass : 'hover:shadow-lg hover:scale-105'
-                    }`
+                    isActive ? activeLinkClass : defaultLinkClass
                   }
                 >
                   Account 
