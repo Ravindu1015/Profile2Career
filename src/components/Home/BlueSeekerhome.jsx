@@ -8,7 +8,7 @@ function BlueSeekerhome() {
   const theme = 'blue'; // Adjusted theme for Blue Seeker Home
 
   const navClass = theme === 'blue' ? 'bg-gray-100 text-gray-800' : 'bg-gray-100 text-gray-800';
-  const activeLinkClass = 'bg-blue-400 text-black shadow-lg'; // Active button styling
+  const activeLinkClass = 'bg-blue-400 text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 hover:shadow-lg hover:scale-105'; // Active button styling
   const defaultLinkClass = 'bg-white text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 hover:shadow-lg hover:scale-105';
 
   return (
