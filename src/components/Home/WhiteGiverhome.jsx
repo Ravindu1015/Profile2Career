@@ -1,10 +1,11 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBriefcase, faUser, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
 function WhiteGiverhome() {
+  const navigate = useNavigate(); // React Router's useNavigate hook
   const theme = 'white'; // Set theme for navbar styling
 
   const navClass = theme === 'white' ? 'bg-gray-100 text-gray-800' : 'bg-blue-800 text-white';
@@ -89,7 +90,7 @@ function WhiteGiverhome() {
 
             {/* Lengthier Role Description */}
             <p className="text-gray-600 mb-6">
-              As a White Giver, you are committed to helping those in need by volunteering your time and sharing your skills in community service. 
+              You are committed to helping those in need by volunteering your time and sharing your skills in community service. 
             </p>
 
             {/* Horizontal Line */}
@@ -99,7 +100,10 @@ function WhiteGiverhome() {
             <p className="text-gray-600 mb-6">
               You can post jobs that align with their skills and expertise, allowing them to apply
             </p>
-            <button className="bg-blue-400 text-white px-4 py-2 rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg transition duration-300">
+            <button 
+              className="bg-blue-400 text-white px-4 py-2 rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg transition duration-300"
+              onClick={() => navigate('../wgpost')}
+            >
               <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
               Offer a Job
             </button>

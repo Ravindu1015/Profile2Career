@@ -29,6 +29,8 @@ import WhiteSeekerabout from './components/About/WhiteSeekerabout';
 import WSaccount from './components/Account/WSaccount';
 import WShelp from './components/Help/WShelp';
 import WhiteSeekermessages from './components/Messages/WhiteSeekermessages';
+// eslint-disable-next-line no-unused-vars
+import WGpost from './components/Post/wgpost';
 
 
 // import firebase from 'firebase/compat/app';
@@ -81,7 +83,9 @@ function App() {
         <Route path="/wsaccount" element={<WSaccount />} />
         <Route path="/wshelp" element={<WShelp />} />
         <Route path="/wsmessages" element={<WhiteSeekermessages />} />
-        
+
+        <Route path="/wgpost" element={<WGpost />} />
+
         
         {/* Catch-all route for undefined paths */}
         <Route path="*" element={<div>404 - Page Not Found</div>} />
