@@ -89,7 +89,7 @@ function WhiteGiverhome() {
 
             {/* Lengthier Role Description */}
             <p className="text-gray-600 mb-6">
-              As a White Giver, you are committed to helping those in need by volunteering your time and sharing your skills in community service. Your contributions are greatly valued, and you play a vital role in creating positive change in society through active engagement.
+              As a White Giver, you are committed to helping those in need by volunteering your time and sharing your skills in community service. 
             </p>
 
             {/* Horizontal Line */}
@@ -97,7 +97,7 @@ function WhiteGiverhome() {
 
             {/* "Going to Offer a Job" Section */}
             <p className="text-gray-600 mb-6">
-              We see you are interested in offering new job opportunities. You can post jobs that align with your skills and expertise, allowing others to benefit from your knowledge and experience.
+              You can post jobs that align with their skills and expertise, allowing them to apply
             </p>
             <button className="bg-blue-400 text-white px-4 py-2 rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg transition duration-300">
               <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
