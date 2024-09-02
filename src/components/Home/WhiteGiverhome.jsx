@@ -1,12 +1,30 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBriefcase, faUser, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+// eslint-disable-next-line no-unused-vars
+import { faBriefcase, faUser, faPlusCircle, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { db, collection, query, where, getDocs } from '../../firebaseConfig'; // Ensure path is correct
 
 function WhiteGiverhome() {
   const navigate = useNavigate(); // React Router's useNavigate hook
+  const [posts, setPosts] = useState([]); // State to store posts
   const theme = 'white'; // Set theme for navbar styling
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        // Adjust query based on your Firebase Firestore structure
+        const postsQuery = query(collection(db, 'wgpost'), where('userId', '==', 'specificUserId'));
+        const querySnapshot = await getDocs(postsQuery);
+        const postsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setPosts(postsData);
+      } catch (error) {
+        console.error('Error fetching posts: ', error);
+      }
+    };
+    fetchPosts();
+  }, []);
 
   const navClass = theme === 'white' ? 'bg-gray-100 text-gray-800' : 'bg-blue-800 text-white';
   const activeLinkClass = 'bg-blue-400 text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 hover:shadow-lg hover:scale-105';
@@ -110,13 +128,41 @@ function WhiteGiverhome() {
           </div>
         </div>
 
-        {/* Other content (right side) */}
-        <div className="col-span-2 bg-white p-6 rounded-lg shadow-md">
-          <h1 className="text-4xl font-bold text-gray-900 mb-6">Welcome to White Giver Home</h1>
-          <p className="text-gray-800">
-            This is the main content area where you can display various information related to the user, tasks, or other details.
-          </p>
-          {/* Add more content here */}
+        {/* Posts grid (right side) */}
+        <div className="col-span-2 bg-white p-6 rounded-lg shadow-md space-y-4">
+          <h1 className="text-4xl font-bold text-gray-900 mb-6">Posted Jobs</h1>
+          {posts.map((post) => (
+            <div key={post.id} className="bg-gray-50 p-4 rounded-lg shadow-md mb-4">
+              {/* Post Header */}
+              <div className="flex items-center mb-4">
+                <FontAwesomeIcon icon={faUserCircle} className="text-2xl text-gray-600 mr-3" />
+                <div>
+                  <p className="font-semibold text-gray-800">{post.name}</p>
+                  <p className="text-gray-600">{post.email}</p>
+                </div>
+              </div>
+
+              {/* Horizontal Line */}
+              <hr className="border-t border-gray-300 mb-4" />
+
+              {/* Post Image */}
+              {post.wgimage && (
+                <img src={post.wgimage} alt="Job" className="w-full h-40 object-cover mb-4 rounded-lg" />
+              )}
+
+              {/* Post Details */}
+              <p className="text-gray-700 mb-4">{post.wgmoreinfo.join(', ')}</p>
+              <p className="text-gray-700 mb-4">Salary: {post.wgsallary}</p>
+
+              {/* Horizontal Line */}
+              <hr className="border-t border-gray-300 mb-4" />
+
+              {/* Apply Button */}
+              <button className="bg-blue-400 text-white px-4 py-2 rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg transition duration-300">
+                Apply
+              </button>
+            </div>
+          ))}
         </div>
       </div>
     </div>

@@ -2,6 +2,11 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { addDoc } from "firebase/firestore";
+import { collection } from "firebase/firestore";
+import { query } from "firebase/firestore";
+import { where } from "firebase/firestore";
+import { getDocs } from "firebase/firestore";
 // import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -20,3 +25,8 @@ const provider = new GoogleAuthProvider();
 const db = getFirestore(app);
 // const analytics = getAnalytics(app);
 export { auth, provider, db };
+export { addDoc };
+export { collection };
+export { query };
+export { where };
+export { getDocs };
