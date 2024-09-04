@@ -31,6 +31,8 @@ import WShelp from './components/Help/WShelp';
 import WhiteSeekermessages from './components/Messages/WhiteSeekermessages';
 // eslint-disable-next-line no-unused-vars
 import WGpost from './components/Post/wgpost';
+// eslint-disable-next-line no-unused-vars
+import BGpost from './components/Post/bgpost';
 
 
 // import firebase from 'firebase/compat/app';
@@ -85,6 +87,7 @@ function App() {
         <Route path="/wsmessages" element={<WhiteSeekermessages />} />
 
         <Route path="/wgpost" element={<WGpost />} />
+        <Route path="/bgpost" element={<BGpost />} />
 
         
         {/* Catch-all route for undefined paths */}
