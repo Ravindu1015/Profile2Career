@@ -6,6 +6,7 @@ import { faBriefcase, faUser, faPlusCircle, faImage } from '@fortawesome/free-so
 import { db, collection, addDoc } from '../../firebaseConfig'; // Adjust the import path as necessary
 
 
+
 function WGpost() {
   const navigate = useNavigate();
   const theme = 'white'; // Set theme for navbar styling

@@ -7,6 +7,9 @@ import { collection } from "firebase/firestore";
 import { query } from "firebase/firestore";
 import { where } from "firebase/firestore";
 import { getDocs } from "firebase/firestore";
+import { doc } from "firebase/firestore";
+import { getDoc } from "firebase/firestore";
+
 // import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -30,3 +33,5 @@ export { collection };
 export { query };
 export { where };
 export { getDocs };
+export { doc };
+export { getDoc };
