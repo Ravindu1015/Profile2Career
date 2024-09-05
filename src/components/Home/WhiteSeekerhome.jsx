@@ -72,7 +72,7 @@ function WhiteSeekerhome() {
             </div>
             <div className="flex-1 flex items-center justify-end">
               <div className="flex space-x-4">
-                <NavLink to="/wshome" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Home</NavLink>
+                <NavLink to="/home/white/seeker" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Home</NavLink>
                 <NavLink to="/wsabout" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>About</NavLink>
                 <NavLink to="/wsmessages" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Messages</NavLink>
                 <NavLink to="/wshelp" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Help</NavLink>
