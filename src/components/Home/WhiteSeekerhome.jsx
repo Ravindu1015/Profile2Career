@@ -1,32 +1,67 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBriefcase, faUser } from '@fortawesome/free-solid-svg-icons';
-import { db, collection, getDocs } from '../../firebaseConfig'; // Adjust the import path as necessary
+// eslint-disable-next-line no-unused-vars
+import { faBriefcase, faUser, faPlusCircle, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { db, collection, getDocs, auth, doc, getDoc } from '../../firebaseConfig'; // Adjust the import path as necessary
+import { onAuthStateChanged } from 'firebase/auth';
 
 function WhiteSeekerhome() {
+  const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
+  const [userInfo, setUserInfo] = useState({ name: '', email: '' });
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const querySnapshot = await getDocs(collection(db, 'wspost'));
-      const postData = querySnapshot.docs.map((doc) => doc.data());
-      setPosts(postData);
+    const fetchUserDataAndPosts = async (user) => {
+      try {
+        if (user) {
+          // Fetch user data from Firestore
+          const userDocRef = doc(db, 'whiteseekers', user.uid); // Adjust the collection name as needed
+          const userDocSnap = await getDoc(userDocRef);
+
+          if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
+            setUserInfo(userData); // Set user info state
+          } else {
+            console.log("No such document!");
+          }
+
+          // Fetch posts from Firestore
+          const postsQuery = collection(db, 'wspost');
+          const querySnapshot = await getDocs(postsQuery);
+
+          const postsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          setPosts(postsData); // Set posts state
+        } else {
+          navigate('/login'); // Redirect if no user is authenticated
+        }
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
     };
-    fetchPosts();
-  }, []);
 
-  const theme = 'white'; // Theme specific to White Seeker Home
+    // Listen for auth state changes and fetch data
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        fetchUserDataAndPosts(user);
+      } else {
+        navigate('/login');
+      }
+    });
 
-  const navClass = theme === 'white' ? 'bg-white text-gray-800' : 'bg-gray-100 text-gray-800';
+    // Clean up the subscription
+    return () => unsubscribe();
+  }, [navigate]);
+
+  const navClass = 'bg-white text-gray-800';
   const activeLinkClass = 'bg-blue-400 text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 hover:shadow-lg hover:scale-105';
-  const defaultLinkClass = 'bg-white text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 hover:shadow-lg hover:scale-105';
+  const defaultLinkClass = 'bg-gray-100 text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 hover:shadow-lg hover:scale-105';
 
   return (
     <div className="bg-white h-screen flex flex-col">
       {/* Navbar */}
-      <nav className={`${navClass} fixed top-0 left-0 right-0 shadow-md`}>
+      <nav className={`${navClass} fixed top-0 left-0 right-0 shadow-md z-10`}>
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
           <div className="relative flex items-center justify-between h-16">
             <div className="flex-shrink-0 flex items-center">
@@ -37,46 +72,12 @@ function WhiteSeekerhome() {
             </div>
             <div className="flex-1 flex items-center justify-end">
               <div className="flex space-x-4">
-                <NavLink 
-                  to="/wshome" 
-                  className={({ isActive }) => 
-                    isActive ? activeLinkClass : defaultLinkClass
-                  }
-                >
-                  Home
-                </NavLink>
-                <NavLink 
-                  to="/wsabout" 
-                  className={({ isActive }) => 
-                    isActive ? activeLinkClass : defaultLinkClass
-                  }
-                >
-                  About
-                </NavLink>
-                <NavLink 
-                  to="/wsmessages" 
-                  className={({ isActive }) => 
-                    isActive ? activeLinkClass : defaultLinkClass
-                  }
-                >
-                  Messages
-                </NavLink>
-                <NavLink 
-                  to="/wshelp" 
-                  className={({ isActive }) => 
-                    isActive ? activeLinkClass : defaultLinkClass
-                  }
-                >
-                  Help
-                </NavLink>
-                <NavLink 
-                  to="/wsaccount" 
-                  className={({ isActive }) => 
-                    isActive ? activeLinkClass : defaultLinkClass
-                  }
-                >
-                  Account 
-                  <FontAwesomeIcon icon={faUser} className="ml-2" />
+                <NavLink to="/wshome" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Home</NavLink>
+                <NavLink to="/wsabout" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>About</NavLink>
+                <NavLink to="/wsmessages" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Messages</NavLink>
+                <NavLink to="/wshelp" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Help</NavLink>
+                <NavLink to="/wsaccount" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
+                  Account <FontAwesomeIcon icon={faUser} className="ml-2" />
                 </NavLink>
               </div>
             </div>
@@ -84,44 +85,64 @@ function WhiteSeekerhome() {
         </div>
       </nav>
 
-      {/* Main Content */}
-      <div className="flex-1 p-6 mt-16">
-        <h1 className="text-4xl font-bold text-gray-900 mb-6">Available Opportunities</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {posts.map((post, index) => (
-            <div key={index} className="bg-gray-50 p-4 rounded-lg shadow-md">
-              <div className="flex items-center mb-4">
-                <img
-                  src={post.wsimage || '/default-image.png'} // Fallback if no image is provided
-                  alt="Opportunity"
-                  className="w-16 h-16 rounded-full mr-4"
-                />
-                <div>
-                  <h2 className="text-xl font-semibold text-gray-900">{post.wsjobtitle}</h2>
-                  <p className="text-blue-600">{post.wssallary}</p>
-                </div>
-              </div>
-              <div className="mb-4">
-                <h3 className="text-lg font-semibold text-gray-700">Skills</h3>
-                <ul className="list-disc pl-5">
-                  {post.wshavingskills.map((skill, idx) => (
-                    <li key={idx} className="text-gray-600">{skill}</li>
-                  ))}
-                </ul>
-              </div>
-              <div className="mb-4">
-                <h3 className="text-lg font-semibold text-gray-700">More Info</h3>
-                <ul className="list-disc pl-5">
-                  {post.wsmore.map((info, idx) => (
-                    <li key={idx} className="text-gray-600">{info}</li>
-                  ))}
-                </ul>
-              </div>
-              <button className="bg-blue-400 text-white px-4 py-2 rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg transition duration-300">
-                Apply Now
-              </button>
+      {/* Main content */}
+      <div className="flex-1 grid grid-cols-3 gap-4 p-4 mt-16">
+        {/* User information card */}
+        <div className="sticky top-16 bg-gray-100 p-6 rounded-xl shadow-black shadow-lg col-span-1">
+          <div className="flex flex-col items-center text-center">
+            <div className="w-32 h-32 rounded-full bg-gray-300 mb-4 flex items-center justify-center">
+              <FontAwesomeIcon icon={faUser} className="text-7xl text-gray-500" />
             </div>
-          ))}
+            <h2 className="text-2xl font-bold mb-2">{userInfo.name || 'Loading...'}</h2>
+            <p className="text-blue-600 mb-4">White Seeker</p>
+            <p className="text-gray-700 mb-4">{userInfo.email || 'Loading...'}</p>
+            <p className="text-gray-600 mb-6">
+              You are committed to finding opportunities that align with your skills and expertise.
+            </p>
+          </div>
+        </div>
+
+        {/* Posts grid */}
+        <div className="col-span-2 bg-gray-100 p-6 rounded-lg shadow-md space-y-4">
+          <h1 className="text-4xl font-bold text-gray-900 mb-6">Available Opportunities</h1>
+          {posts.length > 0 ? (
+            posts.map((post) => (
+              <div key={post.id} className="bg-white p-4 rounded-lg shadow-md mb-4 shadow-blue-300">
+                {/* Job Title */}
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{post.wsjobtitle || 'No Title'}</h2>
+
+                {/* Post Header */}
+                <div className="flex items-center mb-4">
+                  <FontAwesomeIcon icon={faUserCircle} className="text-2xl text-gray-600 mr-3" />
+                  <div>
+                    <p className="font-semibold text-gray-800">{userInfo.name || 'Anonymous'}</p>
+                    <p className="text-gray-600">{userInfo.email || 'No Email'}</p>
+                  </div>
+                </div>
+
+                <hr className="border-t border-gray-300 mb-4" />
+
+                {/* Post Image */}
+                {post.wsimage && (
+                  <img src={post.wsimage} alt="Opportunity" className="w-full h-40 object-cover mb-4 rounded-lg" />
+                )}
+
+                {/* Post Details */}
+                <p className="text-gray-700 mb-4">Skills: {post.wshavingskills?.join(', ') || 'No Skills Provided'}</p>
+                <p className="text-gray-700 mb-4">More Info: {post.wsmore?.join(', ') || 'No Additional Info'}</p>
+                <p className="text-gray-700 mb-4">Salary: {post.wssallary || 'Not Specified'}</p>
+
+                <hr className="border-t border-gray-300 mb-4" />
+
+                {/* Apply Button */}
+                <button className="bg-blue-400 text-white px-4 py-2 rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg transition duration-300">
+                  Apply Now
+                </button>
+              </div>
+            ))
+          ) : (
+            <p>No posts available</p>
+          )}
         </div>
       </div>
     </div>
