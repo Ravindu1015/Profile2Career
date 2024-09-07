@@ -16,7 +16,7 @@ function WhiteGiverabout() {
       try {
         if (user) {
           // Fetch user data from Firestore
-          const userDocRef = doc(db, 'whitegivers', user.uid);
+          const userDocRef = doc(db, 'whitegiver', user.uid);
           const userDocSnap = await getDoc(userDocRef);
 
           if (userDocSnap.exists()) {
@@ -55,28 +55,28 @@ function WhiteGiverabout() {
     {
       name: "Ravindu Prabashwara",
       role: "Frontend Developer",
-      email: "tadrpchandrarathna@std.appsc.sab.ac.lk",
+      email: "ravinduchan15@gmail.com",
       skills: ["React", "JavaScript", "CSS"],
       avatar: "https://via.placeholder.com/150"
     },
     {
       name: "Chanudi Shehani",
       role: "Backend Developer",
-      email: "dgcshehani@std.appsc.sab.ac.lk",
+      email: "dgcshehani44@gmail.com",
       skills: ["Node.js", "Express", "MongoDB"],
       avatar: "https://via.placeholder.com/150"
     },
     {
       name: "S Jeyaprashanth",
       role: "Machine Learning Module Developer",
-      email: "sjeyaprashanth@std.appsc.sab.ac.lk",
+      email: "sjeyaprashanth10@gmail.com",
       skills: ["Python", "TensorFlow", "ML Algorithms"],
       avatar: "https://via.placeholder.com/150"
     },
     {
       name: "Chiththaja Sathsiri",
       role: "UI/UX Designer",
-      email: "gcsathsiri@std.appsc.sab.ac.lk",
+      email: "chiththajasathsiri@gmail.com",
       skills: ["Figma", "Sketch", "Adobe XD"],
       avatar: "https://via.placeholder.com/150"
     }
@@ -164,21 +164,21 @@ function WhiteGiverabout() {
 
           {/* Developers section */}
           <div className="bg-gray-100 p-6 rounded-lg shadow-md shadow-gray-600">
-  <h2 className="text-3xl font-bold mb-4">Meet the Developers</h2>
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-    {developers.map((developer, index) => (
-      <div 
-        key={index} 
-        className="bg-white p-6 rounded-lg shadow-md shadow-blue-600  flex flex-col justify-between"
-      >
-        {/* Developer Image */}
-        <img
-          src={developer.avatar}
-          alt={`${developer.name}'s avatar`}
-          className="w-32 h-32 rounded-full mx-auto mb-6"
-        />
+            <h2 className="text-3xl font-bold mb-4">Meet the Developers</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6">
+              {developers.map((developer, index) => (
+                <div 
+                  key={index} 
+                  className="bg-white w-full h-full p-6 rounded-2xl shadow-md shadow-blue-300 flex flex-col justify-between"
+                >
+                  {/* Developer Image */}
+                  <img
+                    src={developer.avatar}
+                    alt={`${developer.name}'s avatar`}
+                    className="w-32 h-32 rounded-full mx-auto mb-6"
+                  />
 
-        {/* Developer Information */}
+                  {/* Developer Information */}
                   <div className="flex-grow">
                     <h3 className="text-xl font-semibold text-center mb-4">{developer.name}</h3>
                     <p className="text-center text-gray-600 mb-2">{developer.role}</p>
@@ -187,7 +187,7 @@ function WhiteGiverabout() {
                     <p className="text-gray-700 text-center mb-2">Skills: {developer.skills.join(', ')}</p>
                   </div>
                 </div>
-             ))}
+              ))}
             </div>
           </div>
 

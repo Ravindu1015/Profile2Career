@@ -73,8 +73,8 @@ function BlueGiverhome() {
             <div className="flex-1 flex items-center justify-end">
               <div className="flex space-x-4">
                 <NavLink to="/home/blue/giver" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Home</NavLink>
-                <NavLink to="/BlueGiversabout" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>About</NavLink>
-                <NavLink to="/BlueGiversmessages" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Messages</NavLink>
+                <NavLink to="/bgabout" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>About</NavLink>
+                <NavLink to="/BlueGivermessages" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Messages</NavLink>
                 <NavLink to="/BGhelp" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Help</NavLink>
                 <NavLink to="/BGaccount" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
                   Account <FontAwesomeIcon icon={faUser} className="ml-2" />
