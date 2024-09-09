@@ -104,7 +104,54 @@ function BGhelp() {
         </div>
 
         {/* Help content */}
-        {/* ... rest of your content remains the same ... */}
+        <div className="col-span-2 bg-white p-6 rounded-xl shadow-black shadow-lg">
+          <h2 className="text-2xl font-bold mb-6">Help & Support</h2>
+
+          {/* Tips Section */}
+          <div className="mb-8">
+            <h3 className="text-xl font-semibold mb-2">Tips for Blue Givers</h3>
+            <ul className="list-disc list-inside text-gray-700">
+              <li>Regularly update the jobs or opportunities you are offering to make them visible to seekers.</li>
+              <li>Communicate clearly with applicants to ensure they understand the requirements and expectations.</li>
+              <li>Be open to feedback from those you are helping, as it can improve your impact.</li>
+              <li>Stay active and responsive to messages from potential seekers.</li>
+            </ul>
+          </div>
+
+          {/* FAQ Section */}
+          <div className="mb-8">
+            <h3 className="text-xl font-semibold mb-2">Frequently Asked Questions</h3>
+            <div className="text-gray-700">
+              <p className="mb-2">
+                <strong>Q:</strong> How do I offer a job or opportunity?<br />
+                <strong>A:</strong> Simply click the Offer a Job button, and fill out the required details. It will be posted for seekers to view.
+              </p>
+              <p className="mb-2">
+                <strong>Q:</strong> How can I view the seekers applying to my posted jobs?<br />
+                <strong>A:</strong> Navigate to the Messages section, where you can communicate with interested seekers.
+              </p>
+              <p className="mb-2">
+                <strong>Q:</strong> How do I manage my account details?<br />
+                <strong>A:</strong> You can update your account information by visiting the Account section.
+              </p>
+            </div>
+          </div>
+
+          {/* Contact Section */}
+          <div>
+            <h3 className="text-xl font-semibold mb-2">Contact Us</h3>
+            <p className="text-gray-700 mb-4">
+              If you have any further questions or need support, feel free to reach out to us.
+            </p>
+            <button 
+              className="bg-blue-400 text-white px-4 py-2 rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg transition duration-300"
+              onClick={() => window.location.href = 'mailto:support@profile2career.com'}
+            >
+              <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
+              Contact Support
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

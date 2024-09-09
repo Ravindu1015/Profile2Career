@@ -10,14 +10,14 @@ import { onAuthStateChanged } from 'firebase/auth';
 function BlueGiverhome() {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
-  const [userInfo, setUserInfo] = useState({ name: '', email: '' });
+  const [userInfo, setUserInfo] = useState({ bgname: '', bgemail: '' });
 
   useEffect(() => {
     const fetchUserDataAndPosts = async (user) => {
       try {
         if (user) {
           // Fetch the user data from Firestore
-          const userDocRef = doc(db, 'bluegivers', user.uid); // Adjust the collection name as needed
+          const userDocRef = doc(db, 'bluegiver', user.uid); // Adjust the collection name as needed
           const userDocSnap = await getDoc(userDocRef);
 
           if (userDocSnap.exists()) {
