@@ -77,7 +77,7 @@ function WGhelp() {
       {/* Main content */}
       <div className="flex-1 grid grid-cols-3 gap-4 p-6 mt-28">
         {/* User information card */}
-        <div className="sticky top-16 bg-white p-6 rounded-xl shadow-lg col-span-1">
+        <div className="sticky top-16 bg-white p-6 rounded-xl shadow-lg col-span-1 shadow-gray-600">
           <div className="flex flex-col items-center text-center">
             <div className="w-32 h-32 rounded-full bg-gray-300 mb-4 flex items-center justify-center">
               <FontAwesomeIcon icon={faUser} className="text-7xl text-gray-500" />
@@ -104,7 +104,7 @@ function WGhelp() {
 
         {/* Help content */}
         <div className="col-span-2 bg-white p-6 rounded-xl shadow-lg">
-          <h2 className="text-3xl font-bold mb-4">Help & Support</h2>
+          <h2 className="text-3xl font-bold mb-4 shadow-gray-600">Help & Support</h2>
           <div className="space-y-6">
             {/* Tips section */}
             <div>
