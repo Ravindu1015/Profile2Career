@@ -209,4 +209,4 @@ function BSpost() {
   );
 }
 
-
+export default BSpost;
