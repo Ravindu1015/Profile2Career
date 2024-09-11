@@ -211,4 +211,4 @@ function WGpost() {
   );
 }
 
-export default WGpost;
+
