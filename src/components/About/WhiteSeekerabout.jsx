@@ -197,4 +197,4 @@ function WhiteSeekerabout() {
   );
 }
 
-export default WhiteSeekerabout;
+
