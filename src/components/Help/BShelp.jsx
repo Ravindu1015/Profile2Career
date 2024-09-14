@@ -59,7 +59,7 @@ function BShelp() {
                 <NavLink to="/bsabout" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
                   About
                 </NavLink>
-                <NavLink to="/BlueSeekermessages" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
+                <NavLink to="/bsmessage" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
                   Messages
                 </NavLink>
                 <NavLink to="/BShelp" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>

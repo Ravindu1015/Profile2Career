@@ -60,7 +60,7 @@ function BGhelp() {
                 <NavLink to="/bgabout" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
                   About
                 </NavLink>
-                <NavLink to="/BlueGivermessages" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
+                <NavLink to="/bgmessage" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
                   Messages
                 </NavLink>
                 <NavLink to="/BGhelp" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>

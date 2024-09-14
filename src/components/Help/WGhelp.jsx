@@ -59,7 +59,7 @@ function WGhelp() {
                 <NavLink to="/wgabout" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
                   About
                 </NavLink>
-                <NavLink to="/WhiteGivermessages" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
+                <NavLink to="/wgmessage" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
                   Messages
                 </NavLink>
                 <NavLink to="/WGhelp" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>

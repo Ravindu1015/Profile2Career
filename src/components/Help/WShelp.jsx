@@ -59,7 +59,7 @@ function WShelp() {
                 <NavLink to="/wsabout" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
                   About
                 </NavLink>
-                <NavLink to="/WhiteSeekerMessages" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
+                <NavLink to="/wsmessage" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
                   Messages
                 </NavLink>
                 <NavLink to="/WShelp" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
