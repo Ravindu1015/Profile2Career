@@ -75,7 +75,7 @@ function WSpost() {
                   About
                 </NavLink>
                 <NavLink 
-                  to="/wsmessages" 
+                  to="/wsmessage" 
                   className={({ isActive }) => 
                     isActive ? activeLinkClass : defaultLinkClass
                   }

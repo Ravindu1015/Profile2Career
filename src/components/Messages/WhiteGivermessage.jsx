@@ -79,7 +79,7 @@ function WhiteGivemessage() {
                 <NavLink to="/wgabout" className={({ isActive }) => isActive ? 'text-blue-500' : 'text-gray-600'}>
                   About
                 </NavLink>
-                <NavLink to="/WhiteGivermessages" className={({ isActive }) => isActive ? 'text-blue-500' : 'text-gray-600'}>
+                <NavLink to="/wgmessage" className={({ isActive }) => isActive ? 'text-blue-500' : 'text-gray-600'}>
                   Messages
                 </NavLink>
                 <NavLink to="/WGhelp" className={({ isActive }) => isActive ? 'text-blue-500' : 'text-gray-600'}>

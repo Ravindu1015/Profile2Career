@@ -77,7 +77,7 @@ function WGpost() {
                   About
                 </NavLink>
                 <NavLink 
-                  to="/wgmessages" 
+                  to="/wgmessage" 
                   className={({ isActive }) => 
                     isActive ? activeLinkClass : defaultLinkClass
                   }

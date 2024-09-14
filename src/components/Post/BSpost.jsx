@@ -75,7 +75,7 @@ function BSpost() {
                   About
                 </NavLink>
                 <NavLink 
-                  to="/bgmessages" 
+                  to="/bgmessage" 
                   className={({ isActive }) => 
                     isActive ? activeLinkClass : defaultLinkClass
                   }
