@@ -98,7 +98,7 @@ function BlueGiverabout() {
               <div className="flex space-x-4">
                 <NavLink to="/home/blue/giver" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Home</NavLink>
                 <NavLink to="/bgabout" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>About</NavLink>
-                <NavLink to="/bgmessages" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Messages</NavLink>
+                <NavLink to="/bgmessage" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Messages</NavLink>
                 <NavLink to="/bghelp" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Help</NavLink>
                 <NavLink to="/bgaccount" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
                   Account <FontAwesomeIcon icon={faUser} className="ml-2" />
