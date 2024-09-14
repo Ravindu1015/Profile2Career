@@ -75,7 +75,7 @@ function WhiteGiverhome() {
               <div className="flex space-x-4">
                 <NavLink to="/home/white/giver" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Home</NavLink>
                 <NavLink to="/wgabout" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>About</NavLink>
-                <NavLink to="/wgmessage" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Messages</NavLink>
+                <NavLink to="/wgmessage" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Message</NavLink>
                 <NavLink to="/wghelp" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Help</NavLink>
                 <NavLink to="/wgaccount" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
                   Account <FontAwesomeIcon icon={faUser} className="ml-2" />

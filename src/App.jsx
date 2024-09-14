@@ -16,22 +16,20 @@ import WhiteGiverhome from './components/Home/WhiteGiverhome'; // Giver Home Pag
 import BlueGiverabout from './components/About/BlueGiverabout';
 import BGaccount from './components/Account/BGaccount';
 import BGhelp from './components/Help/BGhelp';
-import BlueGivermessages from './components/Messages/BlueGivermessages';
+import BlueGivermessage from './components/Messages/BlueGivermessage';
 import BlueSeekerabout from './components/About/BlueSeekerabout';
 import BSaccount from './components/Account/BSaccount';
 import BShelp from './components/Help/BShelp';
-import BlueSeekermessages from './components/Messages/BlueSeekermessages';
+import BlueSeekermessage from './components/Messages/BlueSeekermessage';
 import WhiteGiverabout from './components/About/WhiteGiverabout';
 import WGaccount from './components/Account/WGaccount';
 import WGhelp from './components/Help/WGhelp';
-import WhiteGivermessages from './components/Messages/WhiteGivermessages';
+import WhiteGivermessage from './components/Messages/WhiteGivermessage';
 import WhiteSeekerabout from './components/About/WhiteSeekerabout';
 import WSaccount from './components/Account/WSaccount';
 import WShelp from './components/Help/WShelp';
-import WhiteSeekermessages from './components/Messages/WhiteSeekermessages';
-// eslint-disable-next-line no-unused-vars
+import WhiteSeekermessage from './components/Messages/WhiteSeekermessage';
 import WGpost from './components/Post/wgpost';
-// eslint-disable-next-line no-unused-vars
 import BGpost from './components/Post/bgpost';
 
 
@@ -67,24 +65,24 @@ function App() {
         <Route path="/bgabout" element={<BlueGiverabout />} />
         <Route path="/bgaccount" element={<BGaccount />} />
         <Route path="/bghelp" element={<BGhelp />} />
-        <Route path="/bgmessage" element={<BlueGivermessages />} />
+        <Route path="/bgmessage" element={<BlueGivermessage />} />
         <Route path="/bshome" element={<BlueSeekerhome />} />
         <Route path="/bsabout" element={<BlueSeekerabout />} /> 
         <Route path="/bsaccount" element={<BSaccount />} />
         <Route path="/bshelp" element={<BShelp />} />
-        <Route path="/bsmessage" element={<BlueSeekermessages />} />
+        <Route path="/bsmessage" element={<BlueSeekermessage />} />
 
 
         <Route path="/wghome" element={<WhiteGiverhome />} />
         <Route path="/wgabout" element={<WhiteGiverabout />} />
         <Route path="/wgaccount" element={<WGaccount />} />
         <Route path="/wghelp" element={<WGhelp />} />
-        <Route path="/wgmessage" element={<WhiteGivermessages />} />
+        <Route path="/wgmessage" element={<WhiteGivermessage />} />
         <Route path="/wshome" element={<WhiteSeekerhome />} />
         <Route path="/wsabout" element={<WhiteSeekerabout />} />
         <Route path="/wsaccount" element={<WSaccount />} />
         <Route path="/wshelp" element={<WShelp />} />
-        <Route path="/wsmessage" element={<WhiteSeekermessages />} />
+        <Route path="/wsmessage" element={<WhiteSeekermessage />} />
 
         <Route path="/wgpost" element={<WGpost />} />
         <Route path="/bgpost" element={<BGpost />} />
