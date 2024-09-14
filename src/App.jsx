@@ -67,24 +67,24 @@ function App() {
         <Route path="/bgabout" element={<BlueGiverabout />} />
         <Route path="/bgaccount" element={<BGaccount />} />
         <Route path="/bghelp" element={<BGhelp />} />
-        <Route path="/bgmessages" element={<BlueGivermessages />} />
+        <Route path="/bgmessage" element={<BlueGivermessages />} />
         <Route path="/bshome" element={<BlueSeekerhome />} />
         <Route path="/bsabout" element={<BlueSeekerabout />} /> 
         <Route path="/bsaccount" element={<BSaccount />} />
         <Route path="/bshelp" element={<BShelp />} />
-        <Route path="/bsmessages" element={<BlueSeekermessages />} />
+        <Route path="/bsmessage" element={<BlueSeekermessages />} />
 
 
         <Route path="/wghome" element={<WhiteGiverhome />} />
         <Route path="/wgabout" element={<WhiteGiverabout />} />
         <Route path="/wgaccount" element={<WGaccount />} />
         <Route path="/wghelp" element={<WGhelp />} />
-        <Route path="/wgmessages" element={<WhiteGivermessages />} />
+        <Route path="/wgmessage" element={<WhiteGivermessages />} />
         <Route path="/wshome" element={<WhiteSeekerhome />} />
         <Route path="/wsabout" element={<WhiteSeekerabout />} />
         <Route path="/wsaccount" element={<WSaccount />} />
         <Route path="/wshelp" element={<WShelp />} />
-        <Route path="/wsmessages" element={<WhiteSeekermessages />} />
+        <Route path="/wsmessage" element={<WhiteSeekermessages />} />
 
         <Route path="/wgpost" element={<WGpost />} />
         <Route path="/bgpost" element={<BGpost />} />
