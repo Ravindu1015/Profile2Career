@@ -21,10 +21,8 @@ function WhiteGiverhome() {
 
           if (userDocSnap.exists()) {
             const userData = userDocSnap.data();
-            console.log("User Data:", userData); // Debug log
             setUserInfo(userData); // Update user info state
           } else {
-            console.log("No such document!");
             setUserInfo({ name: 'No data', email: 'No data' }); // Set default message if document does not exist
           }
 
@@ -89,7 +87,7 @@ function WhiteGiverhome() {
       {/* Main content */}
       <div className="flex-1 grid grid-cols-3 gap-4 p-4 mt-16">
         {/* User information card */}
-        <div className="sticky top-16 bg-white p-6 rounded-xl shadow-black shadow-lg col-span-1">
+        <div className="sticky top-16 bg-white p-6 rounded-xl shadow-lg col-span-1">
           <div className="flex flex-col items-center text-center">
             <div className="w-32 h-32 rounded-full bg-gray-300 mb-4 flex items-center justify-center">
               <FontAwesomeIcon icon={faUser} className="text-7xl text-gray-500" />
@@ -106,7 +104,7 @@ function WhiteGiverhome() {
             </p>
             <button 
               className="bg-blue-400 text-white px-4 py-2 rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg transition duration-300"
-              onClick={() => navigate('../wgpost')}
+              onClick={() => navigate('/wgpost')}
             >
               <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
               Offer a Job
