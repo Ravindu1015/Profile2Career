@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// eslint-disable-next-line no-unused-vars
 import { faUser, faQuestionCircle, faInfoCircle, faBriefcase, faEnvelope, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 // Import Firebase Authentication (optional if using Firebase)
 import { onAuthStateChanged } from "firebase/auth";
@@ -14,8 +13,8 @@ function BGhelp() {
 
   // Define state to store user info
   const [userInfo, setUserInfo] = useState({
-    name: '',
-    email: ''
+    bgname: '',
+    bgemail: ''
   });
 
   // Fetch user info (using Firebase authentication as an example)
@@ -42,30 +41,22 @@ function BGhelp() {
 
   return (
     <div className="bg-gray-100 h-screen flex flex-col">
-      {/* Main Navbar */}
+      {/* Navbar */}
       <nav className={`${navClass} fixed top-0 left-0 right-0 shadow-md z-10`}>
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
           <div className="relative flex items-center justify-between h-16">
             <div className="flex-shrink-0 flex items-center">
               <FontAwesomeIcon icon={faBriefcase} className="text-2xl mr-2" />
-              <NavLink to="/" className="text-2xl font-bold font-cute">
+              <NavLink to="/" className="text-2xl font-bold">
                 Profile2Career
               </NavLink>
             </div>
             <div className="flex-1 flex items-center justify-end">
               <div className="flex space-x-4">
-                <NavLink to="/home/blue/giver" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
-                  Home
-                </NavLink>
-                <NavLink to="/bgabout" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
-                  About
-                </NavLink>
-                <NavLink to="/bgmessage" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
-                  Messages
-                </NavLink>
-                <NavLink to="/BGhelp" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
-                  Help
-                </NavLink>
+                <NavLink to="/home/blue/giver" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Home</NavLink>
+                <NavLink to="/bgabout" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>About</NavLink>
+                <NavLink to="/bgmessage" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Messages</NavLink>
+                <NavLink to="/BGhelp" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Help</NavLink>
                 <NavLink to="/BGaccount" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
                   Account <FontAwesomeIcon icon={faUser} className="ml-2" />
                 </NavLink>
@@ -76,7 +67,7 @@ function BGhelp() {
       </nav>
 
       {/* Main content */}
-      <div className="flex-1 grid grid-cols-3 gap-4 p-4 mt-28">
+      <div className="flex-1 grid grid-cols-3 gap-4 p-4 mt-16">
         {/* User information card */}
         <div className="sticky top-16 bg-white p-6 rounded-xl shadow-black shadow-lg col-span-1">
           <div className="flex flex-col items-center text-center">
@@ -86,70 +77,72 @@ function BGhelp() {
             <h2 className="text-2xl font-bold mb-2">{userInfo.name || 'Loading...'}</h2>
             <p className="text-blue-600 mb-4">Blue Giver</p>
             <p className="text-gray-700 mb-4">{userInfo.email || 'Loading...'}</p>
-            <p className="text-gray-600 mb-6">
-              You are committed to helping those in need by volunteering your time and sharing your skills in community service.
-            </p>
-            <hr className="w-2/3 border-t border-gray-300 mb-6" />
-            <p className="text-gray-600 mb-6">
-              You can post jobs that align with their skills and expertise, allowing them to apply.
-            </p>
+            <p className="text-gray-600 mb-6">Committed to providing job opportunities for blue-collar workers.</p>
             <button 
               className="bg-blue-400 text-white px-4 py-2 rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg transition duration-300"
               onClick={() => navigate('/bgpost')}
             >
               <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
-              Offer a Job
+              Post a Job
             </button>
           </div>
         </div>
 
         {/* Help content */}
-        <div className="col-span-2 bg-white p-6 rounded-xl shadow-black shadow-lg">
-          <h2 className="text-2xl font-bold mb-6">Help & Support</h2>
-
-          {/* Tips Section */}
-          <div className="mb-8">
-            <h3 className="text-xl font-semibold mb-2">Tips for Blue Givers</h3>
-            <ul className="list-disc list-inside text-gray-700">
-              <li>Regularly update the jobs or opportunities you are offering to make them visible to seekers.</li>
-              <li>Communicate clearly with applicants to ensure they understand the requirements and expectations.</li>
-              <li>Be open to feedback from those you are helping, as it can improve your impact.</li>
-              <li>Stay active and responsive to messages from potential seekers.</li>
-            </ul>
-          </div>
-
-          {/* FAQ Section */}
-          <div className="mb-8">
-            <h3 className="text-xl font-semibold mb-2">Frequently Asked Questions</h3>
-            <div className="text-gray-700">
-              <p className="mb-2">
-                <strong>Q:</strong> How do I offer a job or opportunity?<br />
-                <strong>A:</strong> Simply click the Offer a Job button, and fill out the required details. It will be posted for seekers to view.
-              </p>
-              <p className="mb-2">
-                <strong>Q:</strong> How can I view the seekers applying to my posted jobs?<br />
-                <strong>A:</strong> Navigate to the Messages section, where you can communicate with interested seekers.
-              </p>
-              <p className="mb-2">
-                <strong>Q:</strong> How do I manage my account details?<br />
-                <strong>A:</strong> You can update your account information by visiting the Account section.
-              </p>
+        <div className="col-span-2 bg-white p-6 rounded-lg shadow-md space-y-4">
+          <h1 className="text-4xl font-bold text-gray-900 mb-6">Help & Support</h1>
+          <div className="space-y-8">
+            {/* Tips section */}
+            <div>
+              <h3 className="text-2xl font-bold mb-2 flex items-center">
+                <FontAwesomeIcon icon={faInfoCircle} className="mr-2 text-blue-600" />
+                Tips for Blue Givers
+              </h3>
+              <ul className="list-disc list-inside text-gray-700 text-base leading-6">
+                <li>Ensure job postings are clear with all relevant details for blue-collar roles.</li>
+                <li>Regularly review applicants to find the right fit for your open positions.</li>
+                <li>Use messaging features to communicate quickly with applicants.</li>
+                <li>Consider practical on-site interviews where necessary.</li>
+              </ul>
             </div>
-          </div>
 
-          {/* Contact Section */}
-          <div>
-            <h3 className="text-xl font-semibold mb-2">Contact Us</h3>
-            <p className="text-gray-700 mb-4">
-              If you have any further questions or need support, feel free to reach out to us.
-            </p>
-            <button 
-              className="bg-blue-400 text-white px-4 py-2 rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg transition duration-300"
-              onClick={() => window.location.href = 'mailto:support@profile2career.com'}
-            >
-              <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
-              Contact Support
-            </button>
+            {/* FAQ section */}
+            <div>
+              <h3 className="text-2xl font-bold mb-2 flex items-center">
+                <FontAwesomeIcon icon={faQuestionCircle} className="mr-2 text-blue-600" />
+                Frequently Asked Questions
+              </h3>
+              <ul className="space-y-4 text-base text-gray-700">
+                <li>
+                  <strong>How do I post a job?</strong><br />
+                  Navigate to the Post a Job section, fill in the details, and submit your posting.
+                </li>
+                <li>
+                  <strong>How do I view applications?</strong><br />
+                  Go to the Messages section to view and contact applicants.
+                </li>
+                <li>
+                  <strong>Can I edit or remove a job posting?</strong><br />
+                  Yes, you can edit or delete posts from the Account section under My Jobs.
+                </li>
+              </ul>
+            </div>
+
+            {/* Contact Us section */}
+            <div>
+              <h3 className="text-2xl font-bold mb-2 flex items-center">
+                <FontAwesomeIcon icon={faEnvelope} className="mr-2 text-blue-600" />
+                Contact Us
+              </h3>
+              <p className="text-gray-700 text-base mb-4">For further help, feel free to reach out to us.</p>
+              <button 
+                className="bg-blue-400 text-white px-4 py-2 rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg transition duration-300"
+                onClick={() => window.location.href = 'mailto:support@profile2career.com'}
+              >
+                <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
+                Compose Email
+              </button>
+            </div>
           </div>
         </div>
       </div>

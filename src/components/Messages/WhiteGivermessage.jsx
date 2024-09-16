@@ -7,7 +7,7 @@ import { faUser, faEnvelope, faCheckCircle, faTimesCircle, faBriefcase } from '@
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from '../../firebaseConfig'; // Update with your Firebase config path
 
-function WhiteGivemessage() {
+function WhiteGivermessage() {
   const navigate = useNavigate();
 
   // State for user info
@@ -162,4 +162,4 @@ function WhiteGivemessage() {
   );
 }
 
-export default WhiteGivemessage;
+export default WhiteGivermessage;
