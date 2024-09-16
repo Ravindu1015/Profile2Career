@@ -1,7 +1,7 @@
 
 # Profile2Career
 
-![Logo](https://via.placeholder.com/150?text=Profile2Career) <!-- Replace with your actual logo URL -->
+![Logo](C:\Users\ravin\OneDrive\Desktop\myp1\Profile2Career-main\public\image\about.jpg) 
 
 ## Project Overview
 
