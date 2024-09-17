@@ -1,16 +1,15 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// eslint-disable-next-line no-unused-vars
-import { faBriefcase, faUser, faPlusCircle, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faBriefcase, faUser, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { db, collection, getDocs, auth, doc, getDoc } from '../../firebaseConfig'; // Adjust the import path as necessary
 import { onAuthStateChanged } from 'firebase/auth';
 
 function WhiteSeekerhome() {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
-  const [userInfo, setUserInfo] = useState({ name: '', ws_email: '' });
+  const [userInfo, setUserInfo] = useState({ ws_fullname: '', ws_emailaddress: '' });
 
   useEffect(() => {
     const fetchUserDataAndPosts = async (user) => {
@@ -22,26 +21,29 @@ function WhiteSeekerhome() {
 
           if (userDocSnap.exists()) {
             const userData = userDocSnap.data();
-            console.log("User Data:", userData);
+            console.log('User Data:', userData);
             setUserInfo({
               name: userData.ws_fullname || '', // Adjusted field name
-              email: userData.ws_emailaddress || '' // Adjusted field name
+              email: userData.ws_emailaddress || '', // Adjusted field name
             });
           } else {
-            console.log("No such document!");
+            console.log('No such document!');
           }
 
           // Fetch posts from Firestore
-          const postsQuery = collection(db, 'wspost');
+          const postsQuery = collection(db, 'wgpost');
           const querySnapshot = await getDocs(postsQuery);
 
-          const postsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          const postsData = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
           setPosts(postsData); // Set posts state
         } else {
           navigate('/login'); // Redirect if no user is authenticated
         }
       } catch (error) {
-        console.error("Error fetching data: ", error);
+        console.error('Error fetching data: ', error);
       }
     };
 
@@ -76,11 +78,11 @@ function WhiteSeekerhome() {
             </div>
             <div className="flex-1 flex items-center justify-end">
               <div className="flex space-x-4">
-                <NavLink to="/home/white/seeker" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Home</NavLink>
-                <NavLink to="/wsabout" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>About</NavLink>
-                <NavLink to="/wsmessage" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Message</NavLink>
-                <NavLink to="/wshelp" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>Help</NavLink>
-                <NavLink to="/wsaccount" className={({ isActive }) => isActive ? activeLinkClass : defaultLinkClass}>
+                <NavLink to="/home/white/seeker" className={({ isActive }) => (isActive ? activeLinkClass : defaultLinkClass)}>Home</NavLink>
+                <NavLink to="/wsabout" className={({ isActive }) => (isActive ? activeLinkClass : defaultLinkClass)}>About</NavLink>
+                <NavLink to="/wsmessage" className={({ isActive }) => (isActive ? activeLinkClass : defaultLinkClass)}>Message</NavLink>
+                <NavLink to="/wshelp" className={({ isActive }) => (isActive ? activeLinkClass : defaultLinkClass)}>Help</NavLink>
+                <NavLink to="/wsaccount" className={({ isActive }) => (isActive ? activeLinkClass : defaultLinkClass)}>
                   Account <FontAwesomeIcon icon={faUser} className="ml-2" />
                 </NavLink>
               </div>
@@ -107,13 +109,13 @@ function WhiteSeekerhome() {
         </div>
 
         {/* Posts grid */}
-        <div className="col-span-2 bg-gray-100 p-6 rounded-lg shadow-md space-y-4">
+        <div className="col-span-2 bg-gray-100 p-6 rounded-lg shadow-md space-y-4 shadow-black">
           <h1 className="text-4xl font-bold text-gray-900 mb-6">Available Opportunities</h1>
           {posts.length > 0 ? (
             posts.map((post) => (
               <div key={post.id} className="bg-white p-4 rounded-lg shadow-md mb-4 shadow-blue-300">
                 {/* Job Title */}
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{post.wsjobtitle || 'No Title'}</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{post.wgjobtitle || 'No Title'}</h2>
 
                 {/* Post Header */}
                 <div className="flex items-center mb-4">
@@ -127,14 +129,14 @@ function WhiteSeekerhome() {
                 <hr className="border-t border-gray-300 mb-4" />
 
                 {/* Post Image */}
-                {post.wsimage && (
-                  <img src={post.wsimage} alt="Opportunity" className="w-full h-40 object-cover mb-4 rounded-lg" />
+                {post.wgimage && (
+                  <img src={post.wgimage} alt="Opportunity" className="w-full h-40 object-cover mb-4 rounded-lg" />
                 )}
 
                 {/* Post Details */}
-                <p className="text-gray-700 mb-4">Skills: {post.wshavingskills?.join(', ') || 'No Skills Provided'}</p>
-                <p className="text-gray-700 mb-4">More Info: {post.wsmore?.join(', ') || 'No Additional Info'}</p>
-                <p className="text-gray-700 mb-4">Salary: {post.wssallary || 'Not Specified'}</p>
+                <p className="text-gray-700 mb-4">Skills: {post.wgskills?.join(', ') || 'No Skills Provided'}</p>
+                <p className="text-gray-700 mb-4">More Info: {post.wgmoreinfo?.join(', ') || 'No Additional Info'}</p>
+                <p className="text-gray-700 mb-4">Salary: {post.wgsallary || 'Not Specified'}</p>
 
                 <hr className="border-t border-gray-300 mb-4" />
 
