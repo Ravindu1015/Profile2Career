@@ -13,8 +13,8 @@ function WShelp() {
 
   // Define state to store user info
   const [userInfo, setUserInfo] = useState({
-    wsname: '',
-    wsemail: ''
+    name: '',
+    email: ''
   });
 
   // Fetch user info (using Firebase authentication as an example)

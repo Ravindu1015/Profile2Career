@@ -10,19 +10,23 @@ import { onAuthStateChanged } from 'firebase/auth';
 function WhiteSeekerhome() {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
-  const [userInfo, setUserInfo] = useState({ name: '', email: '' });
+  const [userInfo, setUserInfo] = useState({ name: '', ws_email: '' });
 
   useEffect(() => {
     const fetchUserDataAndPosts = async (user) => {
       try {
         if (user) {
           // Fetch user data from Firestore
-          const userDocRef = doc(db, 'whiteseekers', user.uid); // Adjust the collection name as needed
+          const userDocRef = doc(db, 'whiteseeker', user.uid); // Adjust the collection name as needed
           const userDocSnap = await getDoc(userDocRef);
 
           if (userDocSnap.exists()) {
             const userData = userDocSnap.data();
-            setUserInfo(userData); // Set user info state
+            console.log("User Data:", userData);
+            setUserInfo({
+              name: userData.ws_fullname || '', // Adjusted field name
+              email: userData.ws_emailaddress || '' // Adjusted field name
+            });
           } else {
             console.log("No such document!");
           }
