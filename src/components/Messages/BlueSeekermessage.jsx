@@ -4,9 +4,9 @@ import { useNavigate, NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // eslint-disable-next-line no-unused-vars
 import { faUser, faEnvelope, faCheckCircle, faTimesCircle, faBriefcase } from '@fortawesome/free-solid-svg-icons';
-// Import Firebase Authentication (optional if using Firebase)
+import { doc, getDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from '../../firebaseConfig'; // Update with your Firebase config path
+import { db, auth } from '../../firebaseConfig'; // Firebase setup
 
 function BlueSeekermessage() {
   const navigate = useNavigate();
@@ -29,16 +29,25 @@ function BlueSeekermessage() {
           name: user.displayName || 'Anonymous User',
           email: user.email || 'No Email Provided',
         });
+
+        // Fetch applications from Firestore
+        const fetchApplications = async () => {
+          try {
+            const docRef = doc(db, "blueseeker", user.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+              setApplications(docSnap.data().applications || []); // Handle undefined
+            }
+          } catch (error) {
+            console.error("Error fetching applications: ", error);
+          }
+        };
+
+        fetchApplications();
       } else {
         navigate('/login');
       }
     });
-
-    // Fetch applications and messages (mock data for now)
-    setApplications([
-      { id: 1, jobTitle: "Construction Worker", company: "BuildIt Inc.", date: "2024-09-14", status: "pending" },
-      { id: 2, jobTitle: "Warehouse Associate", company: "LogiTech Ltd.", date: "2024-09-10", status: "accepted" }
-    ]);
 
     // Mock unread messages count
     setUnreadMessages(3);
@@ -101,16 +110,20 @@ function BlueSeekermessage() {
           {/* Job Applications */}
           <div>
             <h2 className="text-3xl font-bold mb-4">Your Applications</h2>
-            <ul className="space-y-4">
-              {applications.map(app => (
-                <li key={app.id} className="bg-gray-50 p-4 rounded-lg shadow-md shadow-blue-300">
-                  You applied for <span className="text-xl font-semibold">{app.jobTitle}</span> at {app.company} on {app.date}.
-                  <span className={`ml-4 px-2 py-1 rounded-full text-sm ${app.status === 'accepted' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
-                    {app.status}
-                  </span>
-                </li>
-              ))}
-            </ul>
+            {applications.length > 0 ? (
+              <ul className="space-y-4">
+                {applications.map((app, index) => (
+                  <li key={index} className="bg-gray-50 p-4 rounded-lg shadow-md shadow-blue-300">
+                    You applied for <span className="text-xl font-semibold">{app.jobTitle}</span> on {new Date(app.date).toLocaleDateString()}.
+                    <span className={`ml-4 px-2 py-1 rounded-full text-sm ${app.status === 'accepted' ? 'bg-green-100 text-green-800' : app.status === 'rejected' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                      {app.status === 'pending' ? 'Pending Approval' : app.status === 'accepted' ? 'Accepted' : 'Rejected'}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No applications yet.</p>
+            )}
           </div>
 
           {/* Unread Messages */}
