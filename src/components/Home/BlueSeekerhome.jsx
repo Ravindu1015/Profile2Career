@@ -1,51 +1,52 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// eslint-disable-next-line no-unused-vars
-import { faBriefcase, faUser, faUserCircle } from '@fortawesome/free-solid-svg-icons';
-import { db, collection, getDocs, auth, doc, getDoc } from '../../firebaseConfig';
+import { faBriefcase, faUser } from '@fortawesome/free-solid-svg-icons';
+import { doc, updateDoc, arrayUnion, getDocs, collection, getDoc } from "firebase/firestore";
+import { db, auth } from '../../firebaseConfig'; // Firebase setup
 import { onAuthStateChanged } from 'firebase/auth';
+import { useNavigate, NavLink } from 'react-router-dom';
 
 function BlueSeekerhome() {
   const navigate = useNavigate();
-  const [posts, setPosts] = useState([]);
-  const [userInfo, setUserInfo] = useState({ bs_fullname: '', bs_emailaddress: '' });
 
+  // State for user info
+  const [userInfo, setUserInfo] = useState({
+    name: '',
+    email: ''
+  });
+
+  // State for job posts
+  const [jobs, setJobs] = useState([]);
+
+  // Fetch authenticated user info and jobs
   useEffect(() => {
     const fetchUserDataAndPosts = async (user) => {
       try {
-        if (user) {
-          // Fetch user data
-          const userDocRef = doc(db, 'blueseeker', user.uid); 
-          const userDocSnap = await getDoc(userDocRef);
+        // Fetch user data
+        const userDocRef = doc(db, 'blueseeker', user.uid);
+        const userDocSnap = await getDoc(userDocRef);
 
-          if (userDocSnap.exists()) {
-            const userData = userDocSnap.data();
-            setUserInfo({
-              name: userData.bs_fullname || 'N/A',
-              email: userData.bs_emailaddress || 'N/A',
-            });
-          } else {
-            console.error('No such document!');
-          }
-
-          // Fetch posts
-          const postsQuery = collection(db, 'bgpost');
-          const querySnapshot = await getDocs(postsQuery);
-          const postsData = querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          setPosts(postsData); 
+        if (userDocSnap.exists()) {
+          const userData = userDocSnap.data();
+          setUserInfo({
+            name: userData.bs_fullname || 'N/A',
+            email: userData.bs_emailaddress || 'N/A',
+          });
         } else {
-          navigate('/login');
+          console.error('No such document!');
         }
+
+        // Fetch job posts from Firestore
+        const jobDocs = await getDocs(collection(db, 'bgpost'));
+        const jobList = jobDocs.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setJobs(jobList);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching jobs: ", error);
       }
     };
 
+    // Firebase auth listener
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         fetchUserDataAndPosts(user);
@@ -57,6 +58,42 @@ function BlueSeekerhome() {
     return () => unsubscribe();
   }, [navigate]);
 
+  // Function to handle job applications
+  const applyForJob = async (jobId, jobTitle, giverId) => {
+    try {
+      // Update the BlueSeeker's message
+      const seekerRef = doc(db, "blueseeker", auth.currentUser.uid);
+      await updateDoc(seekerRef, {
+        applications: arrayUnion({
+          jobId,
+          jobTitle,
+          date: new Date().toISOString(),
+          status: "pending"
+        })
+      });
+
+      // Update the BlueGiver's message
+      const giverRef = doc(db, "bluegiver", giverId);
+      await updateDoc(giverRef, {
+        applications: arrayUnion({
+          jobId,
+          jobTitle,
+          applicantId: auth.currentUser.uid,
+          applicantName: auth.currentUser.displayName || 'Anonymous',
+          date: new Date().toISOString(),
+          status: "pending"
+        })
+      });
+
+      // Notify the user that they've applied
+      alert("You applied for the job!");
+
+    } catch (error) {
+      console.error("Error applying for job: ", error);
+    }
+  };
+
+  // Navigation and class names
   const navClass = 'bg-white text-gray-800';
   const activeLinkClass = 'bg-blue-400 text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 hover:shadow-lg hover:scale-105';
   const defaultLinkClass = 'bg-gray-100 text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 hover:shadow-lg hover:scale-105';
@@ -108,26 +145,29 @@ function BlueSeekerhome() {
         {/* Posts grid */}
         <div className="col-span-2 bg-gray-100 p-6 rounded-lg shadow-md space-y-4 shadow-black">
           <h1 className="text-4xl font-bold text-gray-900 mb-6">Available Opportunities</h1>
-          {posts.length > 0 ? (
-            posts.map((post) => (
-              <div key={post.id} className="bg-white p-4 rounded-lg shadow-md mb-4 shadow-blue-300">
+          {jobs.length > 0 ? (
+            jobs.map((job) => (
+              <div key={job.id} className="bg-white p-4 rounded-lg shadow-md mb-4 shadow-blue-300">
                 {/* Job Title */}
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{post.bgjobtitle || 'No Title'}</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{job.bgjobtitle || 'No Title'}</h2>
 
                 {/* Post Image */}
-                {post.bgimage && (
-                  <img src={post.bgimage} alt="Opportunity" className="w-full h-40 object-cover mb-4 rounded-lg" />
+                {job.bgimage && (
+                  <img src={job.bgimage} alt="Opportunity" className="w-full h-40 object-cover mb-4 rounded-lg" />
                 )}
 
                 {/* Post details */}
-                <p className="text-gray-700 mb-4">Location: {post.bglocation || 'Not specified'}</p>
+                <p className="text-gray-700 mb-4">Location: {job.bglocation || 'Not specified'}</p>
                 <p className="text-gray-700 mb-4">
-                  Skills: {Array.isArray(post.bgskills) ? post.bgskills.join(', ') : 'No Skills Provided'}
+                  Skills: {Array.isArray(job.bgskills) ? job.bgskills.join(', ') : 'No Skills Provided'}
                 </p>
-                <p className="text-gray-700 mb-4">Salary: {post.bgsalary || 'Not specified'}</p>
+                <p className="text-gray-700 mb-4">Salary: {job.bgsalary || 'Not specified'}</p>
 
                 {/* Apply button */}
-                <button className="bg-blue-400 text-white px-4 py-2 rounded-lg shadow-md hover:scale-105 transition-transform">
+                <button
+                  onClick={() => applyForJob(job.id, job.bgjobtitle, job.giverId)}
+                  className="bg-blue-400 text-white px-4 py-2 rounded-lg shadow-md hover:scale-105 transition-transform"
+                >
                   Apply Now
                 </button>
               </div>
