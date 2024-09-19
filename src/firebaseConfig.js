@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore, addDoc, collection, query, where, getDocs, doc, getDoc, updateDoc } from "firebase/firestore"; 
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"; 
+import { arrayUnion } from "firebase/firestore";
 const firebaseConfig = {
     apiKey: "AIzaSyA5wovpQGmQf7y4eItnD8h_xtk28jRZUSc",
     authDomain: "profile2career-cf13a.firebaseapp.com",
@@ -31,5 +32,6 @@ export {
     updateDoc, // Added updateDoc to the exports
     ref,
     uploadBytes,
-    getDownloadURL
+    getDownloadURL,
+    arrayUnion 
 };

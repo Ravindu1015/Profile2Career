@@ -1,27 +1,29 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
-import { useNavigate, NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// eslint-disable-next-line no-unused-vars
 import { faUser, faEnvelope, faCheckCircle, faTimesCircle, faBriefcase } from '@fortawesome/free-solid-svg-icons';
-// Import Firebase Authentication (optional if using Firebase)
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from '../../firebaseConfig'; // Update with your Firebase config path
+import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
+import { db, auth } from '../../firebaseConfig';
+import { useNavigate, NavLink } from 'react-router-dom';
+import { onAuthStateChanged } from 'firebase/auth';
 
 function BlueGivermessage() {
   const navigate = useNavigate();
 
-  // State for user info
+  // State for storing authenticated user info
   const [userInfo, setUserInfo] = useState({
     name: '',
     email: ''
   });
 
-  // State for job postings and applications
+  // State for job postings, applications, and unread messages
   const [jobs, setJobs] = useState([]);
   const [applications, setApplications] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [unreadMessages, setUnreadMessages] = useState(0);
 
-  // Fetch user info (using Firebase authentication)
+  // Fetch user info and applications (Firebase Authentication and Firestore)
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -29,36 +31,62 @@ function BlueGivermessage() {
           name: user.displayName || 'Anonymous User',
           email: user.email || 'No Email Provided',
         });
+        fetchApplications(user.uid);
+        fetchJobPostings(user.uid);
       } else {
         navigate('/login');
       }
     });
 
-    // Fetch job postings and applications (mock data for now)
-    setJobs([
-      { id: 1, title: "Data Analyst", date: "2024-09-13", time: "10:00 AM" },
-      { id: 2, title: "HR Manager", date: "2024-09-12", time: "11:30 AM" }
-    ]);
-    setApplications([
-      { id: 1, jobTitle: "Data Analyst", applicant: "Jane Smith", date: "2024-09-14", status: "pending" }
-    ]);
-
-    // Mock unread messages count
+    // Mock unread messages count (for now)
     setUnreadMessages(2);
 
     return () => unsubscribe();
   }, [navigate]);
 
-  const handleAccept = (id) => {
-    // Logic to accept applicant
-    alert(`Applicant ${id} accepted`);
+  // Fetch applications from Firestore
+  const fetchApplications = async (userId) => {
+    try {
+      const docRef = doc(db, "bluegiver", userId);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setApplications(docSnap.data().applications || []);
+      }
+    } catch (error) {
+      console.error("Error fetching applications: ", error);
+    }
   };
 
-  const handleReject = (id) => {
-    // Logic to reject applicant
-    alert(`Applicant ${id} rejected`);
+  // Fetch job postings from Firestore
+  const fetchJobPostings = async (userId) => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "jobs"));
+      const jobsList = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setJobs(jobsList.filter(job => job.giverId === userId));
+    } catch (error) {
+      console.error("Error fetching job postings: ", error);
+    }
   };
 
+  // Handle actions for applications
+  const handleAccept = (applicantId) => {
+    alert(`You accepted the applicant: ${applicantId}`);
+    // Implement actual acceptance logic
+  };
+
+  const handleReject = (applicantId) => {
+    alert(`You rejected the applicant: ${applicantId}`);
+    // Implement actual rejection logic
+  };
+
+  const handleReview = (applicantId) => {
+    navigate(`/profile/${applicantId}`);
+  };
+
+  // Navigation link styling
   const navClass = 'bg-gray-100 text-gray-800';
   const activeLinkClass = 'bg-blue-600 text-white shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 hover:shadow-lg hover:scale-105';
   const defaultLinkClass = 'bg-white text-gray-800 shadow-md px-4 py-2 rounded-full text-sm font-medium transition duration-300 hover:shadow-lg hover:scale-105';
@@ -116,8 +144,9 @@ function BlueGivermessage() {
             <h2 className="text-3xl font-bold mb-4">Your Job Postings</h2>
             <ul className="list-disc list-inside text-gray-700 text-lg">
               {jobs.map(job => (
-                <li key={job.id}>
-                  {job.title} - {job.date} at {job.time}
+                <li key={job.id} className="mb-4">
+                  <strong className="text-xl">{job.title}</strong>
+                  <p className="text-gray-600">Posted on {new Date(job.date).toLocaleDateString()} at {job.time}</p>
                 </li>
               ))}
             </ul>
@@ -127,37 +156,56 @@ function BlueGivermessage() {
           <div>
             <h2 className="text-3xl font-bold mb-4">Applications</h2>
             <ul className="space-y-4">
-              {applications.map(app => (
-                <li key={app.id} className="bg-gray-50 p-4 rounded-lg shadow-md shadow-blue-300">
-                  <strong className="text-xl">{app.applicant}</strong> applied for <span className="text-xl font-semibold">{app.jobTitle}</span> on {app.date}
-                  <div className="mt-4">
-                    <button 
-                      className="bg-green-400 text-white px-4 py-2 rounded-full shadow-md hover:bg-green-500 hover:shadow-lg transition duration-300"
-                      onClick={() => handleAccept(app.id)}
-                    >
-                      <FontAwesomeIcon icon={faCheckCircle} className="mr-2" />
-                      Accept
-                    </button>
-                    <button 
-                      className="bg-red-400 text-white px-4 py-2 rounded-full shadow-md hover:bg-red-500 ml-4 hover:shadow-lg transition duration-300"
-                      onClick={() => handleReject(app.id)}
-                    >
-                      <FontAwesomeIcon icon={faTimesCircle} className="mr-2" />
-                      Reject
-                    </button>
+              {applications.map((app, index) => (
+                <li key={index} className="bg-gray-50 p-4 rounded-lg shadow-md shadow-blue-300">
+                  <div className="flex items-center justify-between mb-2">
+                    <strong className="text-xl">{app.applicantName || app.applicant}</strong>
+                    <span className="text-gray-600 text-sm">{app.jobTitle}</span>
+                  </div>
+                  <p className="text-gray-600 mb-2">Applied on {new Date(app.date).toLocaleDateString()}</p>
+                  <div className="flex space-x-4">
+                    {app.status === 'pending' ? (
+                      <>
+                        <button 
+                          className="bg-green-400 text-white px-4 py-2 rounded-full shadow-md hover:bg-green-500 hover:shadow-lg transition duration-300"
+                          onClick={() => handleAccept(app.applicantId)}
+                        >
+                          <FontAwesomeIcon icon={faCheckCircle} className="mr-2" />
+                          Accept
+                        </button>
+                        <button 
+                          className="bg-red-400 text-white px-4 py-2 rounded-full shadow-md hover:bg-red-500 ml-4 hover:shadow-lg transition duration-300"
+                          onClick={() => handleReject(app.applicantId)}
+                        >
+                          <FontAwesomeIcon icon={faTimesCircle} className="mr-2" />
+                          Reject
+                        </button>
+                        <button
+                          className="bg-blue-400 text-white px-4 py-2 rounded-full shadow-md hover:bg-blue-500 ml-4 hover:shadow-lg transition duration-300"
+                          onClick={() => handleReview(app.applicantId)}
+                        >
+                          Review
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                        className="bg-gray-400 text-white px-4 py-2 rounded-full shadow-md"
+                      >
+                        Reviewed
+                      </button>
+                    )}
                   </div>
                 </li>
               ))}
             </ul>
           </div>
-
-          {/* Unread Messages */}
-          <div className="flex items-center">
-            <FontAwesomeIcon icon={faEnvelope} className="text-blue-600 text-2xl mr-2" />
-            <p className="text-lg">You have {unreadMessages} unread messages.</p>
-          </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="bg-gray-200 text-center py-4 mt-auto">
+        <p className="text-gray-700">© 2024 Profile2Career. All rights reserved.</p>
+      </footer>
     </div>
   );
 }
