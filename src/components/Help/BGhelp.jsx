@@ -140,7 +140,7 @@ function BGhelp() {
                 onClick={() => window.location.href = 'mailto:support@profile2career.com'}
               >
                 <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
-                Compose Email
+                <Q></Q>
               </button>
             </div>
           </div>
