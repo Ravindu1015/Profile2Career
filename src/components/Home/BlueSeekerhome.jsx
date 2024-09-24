@@ -34,7 +34,7 @@ function BlueSeekerhome() {
             email: userData.bs_emailaddress || 'N/A',
           });
         } else {
-          console.error('No such document!');
+          console.error('No such document for the user in blueseeker collection');
         }
 
         // Fetch job posts from Firestore
@@ -42,7 +42,7 @@ function BlueSeekerhome() {
         const jobList = jobDocs.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setJobs(jobList);
       } catch (error) {
-        console.error("Error fetching jobs: ", error);
+        console.error("Error fetching jobs or user data: ", error);
       }
     };
 
@@ -61,8 +61,23 @@ function BlueSeekerhome() {
   // Function to handle job applications
   const applyForJob = async (jobId, jobTitle, giverId) => {
     try {
+      const user = auth.currentUser;
+
+      if (!user) {
+        alert('You need to be logged in to apply for jobs.');
+        return;
+      }
+
+      // Check if the seeker exists before updating
+      const seekerRef = doc(db, "blueseeker", user.uid);
+      const seekerSnap = await getDoc(seekerRef);
+
+      if (!seekerSnap.exists()) {
+        console.error("No such document for the seeker in blueseeker collection");
+        throw new Error("No such document for the seeker");
+      }
+
       // Update the BlueSeeker's message
-      const seekerRef = doc(db, "blueseeker", auth.currentUser.uid);
       await updateDoc(seekerRef, {
         applications: arrayUnion({
           jobId,
@@ -74,12 +89,19 @@ function BlueSeekerhome() {
 
       // Update the BlueGiver's message
       const giverRef = doc(db, "bluegiver", giverId);
+      const giverSnap = await getDoc(giverRef);
+
+      if (!giverSnap.exists()) {
+        console.error("No such document for the giver in bluegiver collection");
+        throw new Error("No such document for the giver");
+      }
+
       await updateDoc(giverRef, {
         applications: arrayUnion({
           jobId,
           jobTitle,
-          applicantId: auth.currentUser.uid,
-          applicantName: auth.currentUser.displayName || 'Anonymous',
+          applicantId: user.uid,
+          applicantName: user.displayName || 'Anonymous',
           date: new Date().toISOString(),
           status: "pending"
         })
@@ -157,23 +179,19 @@ function BlueSeekerhome() {
                 )}
 
                 {/* Post details */}
-                <p className="text-gray-700 mb-4">Location: {job.bglocation || 'Not specified'}</p>
-                <p className="text-gray-700 mb-4">
-                  Skills: {Array.isArray(job.bgskills) ? job.bgskills.join(', ') : 'No Skills Provided'}
-                </p>
-                <p className="text-gray-700 mb-4">Salary: {job.bgsalary || 'Not specified'}</p>
+                <p className="text-gray-700 mb-4">{job.bgdescription || 'No Description Available'}</p>
 
-                {/* Apply button */}
+                {/* Apply Button */}
                 <button
-                  onClick={() => applyForJob(job.id, job.bgjobtitle, job.giverId)}
-                  className="bg-blue-400 text-white px-4 py-2 rounded-lg shadow-md hover:scale-105 transition-transform"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600"
+                  onClick={() => applyForJob(job.id, job.bgjobtitle, job.bgcreatedby)}
                 >
-                  Apply Now
+                  Apply
                 </button>
               </div>
             ))
           ) : (
-            <p className="text-gray-600">No posts available at the moment.</p>
+            <p className="text-gray-700">No jobs available at the moment.</p>
           )}
         </div>
       </div>
