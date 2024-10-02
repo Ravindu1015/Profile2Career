@@ -137,7 +137,7 @@ function BlueLoginpage() {
           <div className="mt-6 flex items-center justify-center">
             <span className="text-gray-600 text-sm">Or you can join with</span>
             <div className="flex space-x-4 ml-4">
-              <a href="#" className="text-blue-600 hover:text-blue-800">
+              <a href="#" className="text-blue-600 hover:text--800">
                 <FontAwesomeIcon icon={faGoogle} size="2x" /> {/* Google Icon */}
               </a>
             </div>
