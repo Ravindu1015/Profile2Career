@@ -22,8 +22,8 @@ function WGhelp() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserInfo({
-          name: user.displayName || 'Anonymous User',
-          email: user.email || 'No Email Provided',
+          name: user.displayName || 'Anonymous User / cant be fetched from Firestore',
+          email: user.email || 'No Email Provided / cant be fetched from Firestore',
         });
       } else {
         // User is signed out, redirect to login or handle it
