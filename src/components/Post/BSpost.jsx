@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBriefcase, faUser, faPlusCircle, faImage } from '@fortawesome/free-solid-svg-icons';
-import { db, collection, addDoc } from '../../firebaseConfig'; // Adjust the import path as necessary
+import { db, collection, addDoc } from '../../firebaseConfig'; 
 
 function BSpost() {
   const navigate = useNavigate();
-  const theme = 'blue'; // Set theme for navbar styling
+  const theme = 'blue'; 
 
   const [jobTitle, setJobTitle] = useState('');
   const [skills, setSkills] = useState(['']);
